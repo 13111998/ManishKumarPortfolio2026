@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 <title>Manish Kumar R — Cloud & DevOps Engineer | Argon 4</title>
 
 <!-- Fonts + Icons -->
@@ -28,31 +28,31 @@
     --argon-glow: 0 22px 55px -10px rgba(0, 240, 255, 0.38);
   }
 
-  /* Disable text selection, image dragging, and touch callouts globally */
+  /* Disable mobile long-press save, text selection, and image dragging */
   * {
     box-sizing: border-box;
     scroll-behavior: smooth;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;
   }
 
-  /* Allow typing inside contact form inputs */
   input, textarea {
     -webkit-user-select: text !important;
     user-select: text !important;
   }
 
   img {
-    pointer-events: none;
-    -webkit-user-drag: none;
+    pointer-events: none !important;
+    -webkit-user-drag: none !important;
   }
 
-  /* Block printing / Save as PDF via Ctrl+P */
+  /* Force 100% Blank Black Screen on Mobile Share -> Print / Save as PDF */
   @media print {
-    body {
+    html, body {
+      background: #000000 !important;
       display: none !important;
     }
   }
@@ -60,66 +60,35 @@
   body {
     margin: 0;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: var(--bg);
+    background: #000000;
     color: var(--text);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    transition: background 0.4s ease, color 0.4s ease, filter 0.15s ease;
   }
 
-  /* Blur entire portfolio when window loses focus (Snipping Tool / Screenshot defense) */
-  body.security-blur .wrap,
-  body.security-blur .quick-contact-dock {
-    filter: blur(28px) brightness(0.15);
-    pointer-events: none;
-  }
-
-  /* ── ANTI-SCREENSHOT SECURITY SHIELD OVERLAY ── */
-  .security-shield-overlay {
+  /* ── 100% FULL BLANK PITCH-BLACK SCREEN OVERLAY (ZERO TEXT, ZERO ICONS WHEN TRIGGERED) ── */
+  .blackout-curtain {
     position: fixed;
     inset: 0;
-    z-index: 999999;
-    background: rgba(0, 0, 0, 0.96);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    width: 100vw;
+    height: 100vh;
+    background: #000000 !important;
+    z-index: 2147483647;
     display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 24px;
+    pointer-events: auto;
   }
 
-  body.security-blur .security-shield-overlay {
-    display: flex;
+  /* Instant zero-millisecond transition to pure black */
+  body.blackout-active .wrap,
+  body.blackout-active .quick-contact-dock,
+  body.blackout-active nav {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    display: none !important;
   }
 
-  .shield-box {
-    max-width: 480px;
-    padding: 32px;
-    border-radius: 22px;
-    background: #05050a;
-    border: 1px solid rgba(255, 0, 85, 0.55);
-    box-shadow: 0 0 50px rgba(255, 0, 85, 0.25);
-  }
-
-  .shield-box i {
-    font-size: 44px;
-    color: #ff0055;
-    margin-bottom: 14px;
-  }
-
-  .shield-box h3 {
-    margin: 0 0 8px;
-    font-size: 22px;
-    color: #ffffff;
-  }
-
-  .shield-box p {
-    margin: 0;
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.6;
+  body.blackout-active .blackout-curtain {
+    display: block !important;
   }
 
   /* Pure Black Cyber Grid */
@@ -222,6 +191,12 @@
     white-space: nowrap;
   }
 
+  .toggle.privacy-active {
+    border-color: #00ff88;
+    color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+  }
+
   /* ── FLOATING QUICK-CONTACT DOCK (BOTTOM-RIGHT CORNER) ── */
   .quick-contact-dock {
     position: fixed;
@@ -268,19 +243,9 @@
     position: relative;
   }
 
-  .dock-btn:hover {
-    transform: scale(1.12) translateY(-2px);
-    border-color: var(--neon-1);
-    box-shadow: 0 0 25px rgba(0, 240, 255, 0.55);
-  }
-
   .dock-btn.whatsapp { color: #25d366; border-color: rgba(37, 211, 102, 0.4); }
   .dock-btn.linkedin { color: #0077b5; border-color: rgba(0, 119, 181, 0.4); }
   .dock-btn.email { color: var(--neon-1); border-color: rgba(0, 240, 255, 0.4); }
-
-  .dock-btn.whatsapp:hover { background: rgba(37, 211, 102, 0.15); box-shadow: 0 0 25px rgba(37, 211, 102, 0.6); }
-  .dock-btn.linkedin:hover { background: rgba(0, 119, 181, 0.15); box-shadow: 0 0 25px rgba(0, 119, 181, 0.6); }
-  .dock-btn.email:hover { background: rgba(0, 240, 255, 0.15); box-shadow: 0 0 25px rgba(0, 240, 255, 0.6); }
 
   .dock-toggle-main {
     width: 56px;
@@ -295,12 +260,6 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 12px 35px rgba(0, 240, 255, 0.45);
-    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
-  }
-
-  .dock-toggle-main:hover {
-    transform: scale(1.08) rotate(15deg);
-    box-shadow: 0 0 40px var(--neon-1);
   }
 
   .dock-tooltip {
@@ -499,22 +458,11 @@
     box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
   }
 
-  .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 36px rgba(0, 240, 255, 0.45);
-  }
-
   .btn-ghost {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--glass-border);
     color: var(--text);
     backdrop-filter: blur(10px);
-  }
-
-  .btn-ghost:hover {
-    border-color: var(--neon-1);
-    background: rgba(0, 240, 255, 0.1);
-    transform: translateY(-3px);
   }
 
   /* ── SECTIONS & HEADINGS ── */
@@ -564,10 +512,6 @@
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .argon-card:active {
-    cursor: grabbing;
-  }
-
   .argon-card::before {
     content: "";
     position: absolute;
@@ -591,10 +535,6 @@
       0 35px 70px rgba(0, 0, 0, 0.95),
       0 0 38px rgba(0, 240, 255, 0.35),
       inset 0 0 18px rgba(0, 240, 255, 0.12);
-  }
-
-  .argon-card.is-dragging {
-    z-index: 9999 !important;
   }
 
   .argon-card > * {
@@ -646,7 +586,6 @@
     object-position: bottom center;
     display: block;
     background: #000000 !important;
-    pointer-events: none;
   }
 
   .profile-meta {
@@ -675,13 +614,6 @@
     color: var(--text);
     text-decoration: none;
     font-size: 17px;
-    transition: all 0.25s ease;
-  }
-
-  .social-row a:hover {
-    background: var(--accent);
-    color: #000000;
-    transform: translateY(-4px);
   }
 
   .about-info {
@@ -733,13 +665,6 @@
     color: var(--text);
     font-weight: 600;
     font-size: 13px;
-    transition: all 0.2s ease;
-  }
-
-  .skill-pill:hover {
-    border-color: var(--neon-1);
-    background: rgba(0, 240, 255, 0.14);
-    transform: translateY(-2px);
   }
 
   /* ── DEVOPS STACK ── */
@@ -846,10 +771,6 @@
     margin-bottom: 24px;
   }
 
-  .step-item:last-child {
-    margin-bottom: 0;
-  }
-
   .step-badge-dot {
     position: absolute;
     left: -44px;
@@ -859,7 +780,6 @@
     border-radius: 50%;
     background: #000000;
     border: 2px solid var(--neon-1);
-    box-shadow: 0 0 18px rgba(0, 240, 255, 0.55);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -874,8 +794,6 @@
     background: rgba(0, 0, 0, 0.65) !important;
     border-radius: 20px;
     padding: 24px 28px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
   }
 
   .step-header {
@@ -911,10 +829,6 @@
     color: var(--muted);
     line-height: 1.75;
     font-size: 14.5px;
-  }
-
-  .step-transparent-card li {
-    margin-bottom: 7px;
   }
 
   /* ── EDUCATION & LANGUAGES ── */
@@ -957,7 +871,6 @@
     font-size: 25px;
     background: var(--accent);
     color: #000000;
-    box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
   }
 
   /* ── PROJECTS (CLEAN IMAGE-ONLY CARDS) ── */
@@ -984,11 +897,6 @@
     border-radius: 14px;
     overflow: hidden;
     background: #000000;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.09);
   }
 
   .project-visual-card .showcase-img-wrap img {
@@ -996,12 +904,6 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
-    pointer-events: none;
-  }
-
-  .project-visual-card:hover .showcase-img-wrap img {
-    transform: scale(1.06);
   }
 
   /* ── CERTIFICATIONS ── */
@@ -1028,24 +930,6 @@
     border-radius: 14px;
     overflow: hidden;
     background: #000000;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-  }
-
-  .showcase-img-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.4s ease;
-    pointer-events: none;
-  }
-
-  .showcase-card:hover .showcase-img-wrap img {
-    transform: scale(1.06);
   }
 
   .cert-photo-wrap {
@@ -1059,15 +943,10 @@
     object-fit: contain !important;
   }
 
-  .card-meta {
-    margin-top: 12px;
-  }
-
   .card-title {
     font-weight: 700;
     font-size: 15px;
     color: var(--text);
-    line-height: 1.35;
     margin-bottom: 4px;
   }
 
@@ -1075,72 +954,6 @@
     font-size: 12px;
     color: var(--neon-1);
     font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* ── GALLERY MODAL ── */
-  .gallery-modal {
-    position: fixed;
-    inset: 0;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.94);
-    backdrop-filter: blur(18px);
-    z-index: 30000;
-    padding: 24px;
-  }
-
-  .gallery-modal.open {
-    display: flex;
-  }
-
-  .gallery-top-bar {
-    width: 100%;
-    max-width: 980px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-
-  .gallery-close-btn {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid var(--glass-border);
-    color: var(--text);
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .gallery-close-btn:hover {
-    background: #ff0055;
-    border-color: #ff0055;
-  }
-
-  .gallery-stage {
-    position: relative;
-    width: 100%;
-    max-width: 980px;
-    height: 75vh;
-    background: #000000;
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
-  }
-
-  .gallery-stage img {
-    max-width: 94%;
-    max-height: 92%;
-    object-fit: contain;
-    border-radius: 12px;
   }
 
   /* ── CONTACT + GOOGLE FORM INTEGRATION ── */
@@ -1176,11 +989,6 @@
     outline: none;
   }
 
-  .input:focus {
-    border-color: var(--neon-1);
-    box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.12);
-  }
-
   footer {
     padding: 44px 6%;
     text-align: center;
@@ -1193,27 +1001,20 @@
   @media (max-width: 920px) {
     .contact-grid, .edu-lang-grid { grid-template-columns: 1fr; }
     .impact-strip { grid-template-columns: repeat(2, 1fr); }
-    .gallery-stage { height: 55vh; }
     .profile { width: 100%; }
   }
 </style>
 </head>
 <body>
 
-<!-- ANTI-SCREENSHOT & FOCUS LOSS SECURITY SHIELD -->
-<div class="security-shield-overlay" id="securityShield">
-  <div class="shield-box">
-    <i class="fas fa-shield-alt"></i>
-    <h3>Protected Portfolio Content</h3>
-    <p id="shieldMessage">Screen capture, snipping tools, and unauthorized copying are disabled on Manish Kumar R's portfolio. Click anywhere inside the window to resume viewing.</p>
-  </div>
-</div>
+<!-- 100% FULL BLANK PITCH-BLACK SCREEN OVERLAY (NO TEXT OR GRAPHICS SO SCREENSHOT IS COMPLETELY BLACK) -->
+<div class="blackout-curtain" id="blackoutCurtain"></div>
 
 <div class="wrap" id="wrap">
 
-  <!-- ARGON 4.15 FLOATING NAVBAR -->
+  <!-- ARGON 4.17 FLOATING NAVBAR -->
   <nav>
-    <div class="nav-brand">🔒 ARGON // 4.15</div>
+    <div class="nav-brand">🔒 ARGON // 4.17</div>
     <div class="nav-btn"><a href="#about">Summary & Skills</a></div>
     <div class="nav-btn"><a href="#stack">Stack</a></div>
     <div class="nav-btn"><a href="#experience">Experience</a></div>
@@ -1222,23 +1023,23 @@
     <div class="nav-btn"><a href="#Design">Projects</a></div>
     <div class="nav-btn"><a href="#cert">Certifications</a></div>
     <div class="nav-btn contact-pill"><a href="#contact" id="navContactBtn"><i class="fas fa-paper-plane"></i> Contact</a></div>
-    <div class="toggle" id="themeToggle" title="Toggle theme">🌗 <span id="themeLabel">Black</span></div>
+    <div class="toggle" id="privacyHoldToggle" title="When ON, screen turns 100% black unless finger/mouse is actively touching the page">🛡️ Hold-to-View: <span id="privacyHoldLabel">OFF</span></div>
   </nav>
 
   <!-- FLOATING QUICK-CONTACT DOCK (PLAIN-TEXT BOT PROTECTED) -->
   <div class="quick-contact-dock" id="quickContactDock">
     <div class="dock-icons-wrap">
-      <a href="#" id="secureWhatsappBtn" class="dock-btn whatsapp" title="Chat on WhatsApp (Bot-Protected)">
+      <a href="#" id="secureWhatsappBtn" class="dock-btn whatsapp" title="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
-        <span class="dock-tooltip">WhatsApp (Encrypted)</span>
+        <span class="dock-tooltip">WhatsApp</span>
       </a>
       <a href="https://www.linkedin.com/in/manish-kumar-r-a834261b6/" target="_blank" rel="noopener noreferrer" class="dock-btn linkedin" title="Connect on LinkedIn">
         <i class="fab fa-linkedin-in"></i>
         <span class="dock-tooltip">LinkedIn</span>
       </a>
-      <a href="#" id="secureEmailBtn" class="dock-btn email" title="Send Email (Bot-Protected)">
+      <a href="#" id="secureEmailBtn" class="dock-btn email" title="Send Email">
         <i class="fas fa-envelope"></i>
-        <span class="dock-tooltip">Email (Encrypted)</span>
+        <span class="dock-tooltip">Email</span>
       </a>
     </div>
     <button class="dock-toggle-main" id="dockToggleBtn" title="Quick Contact">
@@ -1248,14 +1049,13 @@
 
   <!-- PRELOADER -->
   <div class="preloader" id="preloader" aria-hidden="false">
-    <div class="logo">MANISH KUMAR R // SECURE ARGON 4</div>
+    <div class="logo">MANISH KUMAR R // ARGON 4</div>
     <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
   </div>
 
   <!-- HERO -->
   <header class="hero" id="home">
     <iframe class="spline" src="https://my.spline.design/orb-WJJLRQLUDMdwoXsST4jT67gj/" allow="fullscreen"></iframe>
-
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
 
@@ -1303,17 +1103,17 @@
         </div>
 
         <div class="social-row">
-          <a href="https://www.linkedin.com/in/manish-kumar-r-a834261b6/" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://www.behance.net/manishkumar324" target="_blank" rel="noopener noreferrer" title="Behance"><i class="fab fa-behance"></i></a>
-          <a href="https://github.com/" target="_blank" rel="noopener noreferrer" title="GitHub"><i class="fab fa-github"></i></a>
-          <a href="https://drive.google.com/drive/folders/1S6Y3Jna8-oWzcncy6T9Pl92ReXuF9Bzz" target="_blank" rel="noopener noreferrer" title="Google Drive"><i class="fab fa-google-drive"></i></a>
+          <a href="https://www.linkedin.com/in/manish-kumar-r-a834261b6/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.behance.net/manishkumar324" target="_blank" rel="noopener noreferrer"><i class="fab fa-behance"></i></a>
+          <a href="https://github.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+          <a href="https://drive.google.com/drive/folders/1S6Y3Jna8-oWzcncy6T9Pl92ReXuF9Bzz" target="_blank" rel="noopener noreferrer"><i class="fab fa-google-drive"></i></a>
         </div>
       </div>
 
       <div class="about-info argon-card">
         <h3>Summary</h3>
         <p>
-          Cloud & DevOps Engineer with 4+ years of experience in AWS Cloud, DevOps, and infrastructure management. Skilled in designing, automating, and maintaining scalable and secure cloud environments on AWS. Experienced in CI/CD pipelines, Docker, Kubernetes, Linux administration, and infrastructure automation. Passionate about improving operational efficiency, reliability, and application delivery through modern DevOps practices.
+          Cloud & DevOps Engineer with 4+ years of experience in AWS Cloud, DevOps, and infrastructure management. Skilled in designing, automating, and maintaining scalable and secure cloud environments on AWS. Experienced in CI/CD pipelines, Docker, Kubernetes, Linux administration, and infrastructure automation.
         </p>
 
         <div class="meta-list">
@@ -1369,7 +1169,6 @@
     <div class="section-title">
       <div class="eyebrow">02 // Core Technical Domains</div>
       <h2>Cloud, Automation & Reliability Stack</h2>
-      <p>Grab and drag any card in 3D space — built around your core AWS, Kubernetes, CI/CD, and IaC competencies.</p>
     </div>
 
     <div class="devops-grid">
@@ -1377,7 +1176,7 @@
         <div class="devops-icon">☁️</div>
         <h3>AWS Cloud & High Availability</h3>
         <p>Managing 50+ EC2 instances with Auto Scaling, ELB, multi-AZ RDS, S3 encryption, and fine-grained VPC/IAM security.</p>
-        <div class="tech-tags"><span>EC2</span><span>S3</span><span>IAM</span><span>VPC</span><span>RDS</span><span>ELB</span><span>Auto Scaling</span><span>CloudFront</span></div>
+        <div class="tech-tags"><span>EC2</span><span>S3</span><span>IAM</span><span>VPC</span><span>RDS</span><span>ELB</span><span>Auto Scaling</span></div>
       </article>
 
       <article class="devops-card argon-card">
@@ -1412,7 +1211,7 @@
         <div class="devops-icon">🐍</div>
         <h3>Serverless & Process Automation</h3>
         <p>Python automation scripts with AWS Lambda for serverless task execution, process automation, and operational tooling.</p>
-        <div class="tech-tags"><span>Python</span><span>AWS Lambda</span><span>Dynamo DB</span><span>Open stack</span><span>Excel VBA</span></div>
+        <div class="tech-tags"><span>Python</span><span>AWS Lambda</span><span>Dynamo DB</span><span>Open stack</span></div>
       </article>
     </div>
   </section>
@@ -1446,10 +1245,10 @@
           </div>
           <ul>
             <li>Managed <strong>50+ EC2 instances with Auto Scaling and ELB</strong>, achieving <strong>99.99% uptime</strong> for production workloads.</li>
-            <li>Implemented secure access controls for <strong>S3 and EC2 using IAM roles, bucket policies, ACLs, and encryption</strong> for secure AWS service interactions.</li>
+            <li>Implemented secure access controls for <strong>S3 and EC2 using IAM roles, bucket policies, ACLs, and encryption</strong>.</li>
             <li>Configured and managed <strong>VPC security groups and network ACLs</strong> for fine-grained access control.</li>
             <li>Designed high-availability <strong>RDS architectures with automated failover strategies</strong> for improved resilience.</li>
-            <li>Implemented <strong>Elastic Load Balancers (ELB)</strong> to distribute traffic across multiple instances, improving fault tolerance.</li>
+            <li>Implemented <strong>Elastic Load Balancers (ELB)</strong> to distribute traffic across multiple instances.</li>
           </ul>
         </div>
       </article>
@@ -1463,7 +1262,7 @@
           </div>
           <ul>
             <li>Performed <strong>Python automation scripts with AWS Lambda</strong> for serverless task execution and process automation.</li>
-            <li>Implemented <strong>Amazon CloudWatch monitoring and automated alerting</strong>, reducing incident response time by <strong>35%</strong> and improving operational visibility.</li>
+            <li>Implemented <strong>Amazon CloudWatch monitoring and automated alerting</strong>, reducing incident response time by <strong>35%</strong>.</li>
           </ul>
         </div>
       </article>
@@ -1476,7 +1275,7 @@
             <span class="step-pill">Jenkins Multibranch · GitHub · Docker · Argo CD · Helm</span>
           </div>
           <ul>
-            <li>Built and automated <strong>CI/CD pipelines using Jenkins Multibranch and GitHub</strong>, enabling streamlined build, test, and deployment workflows across multiple branches and reducing manual deployment effort.</li>
+            <li>Built and automated <strong>CI/CD pipelines using Jenkins Multibranch and GitHub</strong> across multiple branches.</li>
             <li>Automated workflows using <strong>Jenkins for builds, Docker for containerization, and Argo CD with Helm</strong> for Kubernetes deployments.</li>
             <li>Integrated <strong>GitHub with CI/CD pipelines</strong> to enable automated testing and seamless deployments.</li>
           </ul>
@@ -1491,11 +1290,10 @@
             <span class="step-pill">Kubernetes · RBAC · HPA · Cluster Autoscaler · Prometheus · Grafana</span>
           </div>
           <ul>
-            <li>Managed <strong>Docker images/repositories and administered Kubernetes clusters</strong> across development, staging, and production environments.</li>
-            <li>Designed and maintained <strong>Kubernetes manifests</strong> for application lifecycle management.</li>
-            <li>Implemented <strong>Kubernetes RBAC policies, ConfigMaps, and Secrets</strong> to secure workloads and configurations.</li>
-            <li>Configured <strong>Horizontal Pod Autoscaler (HPA) and Cluster Autoscaler</strong> to optimize Kubernetes workloads for performance and cost efficiency.</li>
-            <li>Deployed and managed <strong>Kubernetes monitoring stacks (Prometheus + Grafana)</strong> to track application and cluster health.</li>
+            <li>Managed <strong>Docker images/repositories and administered Kubernetes clusters</strong> across dev, staging, and production.</li>
+            <li>Designed and maintained <strong>Kubernetes manifests</strong> and implemented <strong>RBAC policies, ConfigMaps, and Secrets</strong>.</li>
+            <li>Configured <strong>Horizontal Pod Autoscaler (HPA) and Cluster Autoscaler</strong> for performance and cost efficiency.</li>
+            <li>Deployed and managed <strong>Kubernetes monitoring stacks (Prometheus + Grafana)</strong> to track cluster health.</li>
           </ul>
         </div>
       </article>
@@ -1556,29 +1354,24 @@
         <div class="argon-badge" style="margin-bottom:12px;"><i class="fas fa-graduation-cap"></i> 08/2017 – 05/2021 · Namakkal</div>
         <h3 style="font-size:24px; margin:0 0 6px;">B.E. (Mechanical Engineer)</h3>
         <div style="color:var(--neon-1); font-weight:700; font-size:15px; margin-bottom:12px;">KSR College Of Engineering · Namakkal</div>
-        <p style="color:var(--muted); margin:0; line-height:1.65; font-size:14.5px;">
-          Bachelor of Engineering in Mechanical Engineering with a strong foundation in systems engineering, analytical problem-solving, and process automation.
-        </p>
       </div>
 
       <div class="edu-card argon-card">
         <div class="argon-badge" style="margin-bottom:12px;"><i class="fas fa-language"></i> PROFICIENCY</div>
         <h3 style="font-size:24px; margin:0 0 14px;">Languages</h3>
         <div style="display:flex; flex-direction:column; gap:12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-radius:12px; background:#000; border:1px solid rgba(255,255,255,0.08);">
-            <strong>Tamil</strong>
-            <span style="color:var(--neon-1); font-family:'JetBrains Mono',monospace; font-size:13px;">Native</span>
+          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:#000; border:1px solid rgba(255,255,255,0.08);">
+            <strong>Tamil</strong><span style="color:var(--neon-1);">Native</span>
           </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-radius:12px; background:#000; border:1px solid rgba(255,255,255,0.08);">
-            <strong>English</strong>
-            <span style="color:var(--neon-1); font-family:'JetBrains Mono',monospace; font-size:13px;">Native</span>
+          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:#000; border:1px solid rgba(255,255,255,0.08);">
+            <strong>English</strong><span style="color:var(--neon-1);">Native</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROJECTS (CLEAN VISUAL CARDS — NO CAPTIONS & NO PHOTO COUNT BADGES) -->
+  <!-- PROJECTS (CLEAN VISUAL CARDS — NO CAPTIONS) -->
   <section id="Design">
     <div class="section-title">
       <div class="eyebrow">06 // Visual Showcase</div>
@@ -1586,65 +1379,16 @@
     </div>
 
     <div class="projects-full-grid">
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="image/thar.png" alt="Project 1" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'">
-        </div>
-      </div>
-
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="image/24.png" alt="Project 2" onerror="this.src='https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=800&q=80'">
-        </div>
-      </div>
-
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="image/logo 3gh.23.jpg" alt="Project 3" onerror="this.src='https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?auto=format&fit=crop&w=800&q=80'">
-        </div>
-      </div>
-
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="image/gpommcnnnnnf.57.jpg" alt="Project 4" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80'">
-        </div>
-      </div>
-
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="Project 5">
-        </div>
-      </div>
-
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80" alt="Project 6">
-        </div>
-      </div>
-
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80" alt="Project 7">
-        </div>
-      </div>
-
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80" alt="Project 8">
-        </div>
-      </div>
-
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80" alt="Project 9">
-        </div>
-      </div>
-
-      <div class="project-visual-card argon-card gallery-trigger">
-        <div class="showcase-img-wrap">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Project 10">
-        </div>
-      </div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="image/thar.png" alt="Project 1" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80'"></div></div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="image/24.png" alt="Project 2" onerror="this.src='https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=800&q=80'"></div></div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="image/logo 3gh.23.jpg" alt="Project 3" onerror="this.src='https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?auto=format&fit=crop&w=800&q=80'"></div></div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="image/gpommcnnnnnf.57.jpg" alt="Project 4" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80'"></div></div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="Project 5"></div></div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80" alt="Project 6"></div></div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80" alt="Project 7"></div></div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80" alt="Project 8"></div></div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80" alt="Project 9"></div></div>
+      <div class="project-visual-card argon-card"><div class="showcase-img-wrap"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Project 10"></div></div>
     </div>
   </section>
 
@@ -1653,15 +1397,12 @@
     <div class="section-title">
       <div class="eyebrow">07 // Verified Credentials</div>
       <h2>Certifications</h2>
-      <p>Synced with your resume credentials • Click any certificate to inspect full screen.</p>
     </div>
 
     <div class="certs-full-grid">
-      <div class="showcase-card argon-card gallery-trigger">
+      <div class="showcase-card argon-card">
         <div class="showcase-img-wrap cert-photo-wrap">
-          <img src="image/aws-certified-solutions-architect-associate.png"
-               alt="AWS Certified Solutions Architect - Associate"
-               onerror="this.src='https://images.credly.com/size/680x680/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png'">
+          <img src="image/aws-certified-solutions-architect-associate.png" alt="AWS SAA" onerror="this.src='https://images.credly.com/size/680x680/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png'">
         </div>
         <div class="card-meta">
           <div class="card-title">AWS Certified Solutions Architect - Associate</div>
@@ -1669,11 +1410,9 @@
         </div>
       </div>
 
-      <div class="showcase-card argon-card gallery-trigger">
+      <div class="showcase-card argon-card">
         <div class="showcase-img-wrap cert-photo-wrap">
-          <img src="image/aws-certified-cloudops-engineer-associate.png"
-               alt="AWS Certified CloudOps Engineer - Associate"
-               onerror="this.src='https://images.credly.com/size/680x680/images/f0d3540d-5965-4f59-8160-b2a1041b4546/image.png'">
+          <img src="image/aws-certified-cloudops-engineer-associate.png" alt="AWS CloudOps" onerror="this.src='https://images.credly.com/size/680x680/images/f0d3540d-5965-4f59-8160-b2a1041b4546/image.png'">
         </div>
         <div class="card-meta">
           <div class="card-title">AWS Certified CloudOps Engineer - Associate</div>
@@ -1681,11 +1420,9 @@
         </div>
       </div>
 
-      <div class="showcase-card argon-card gallery-trigger">
+      <div class="showcase-card argon-card">
         <div class="showcase-img-wrap cert-photo-wrap">
-          <img src="image/aws-certified-cloud-practitioner.png"
-               alt="AWS Certified Cloud Practitioner"
-               onerror="this.src='https://images.credly.com/size/680x680/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png'">
+          <img src="image/aws-certified-cloud-practitioner.png" alt="AWS Practitioner" onerror="this.src='https://images.credly.com/size/680x680/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png'">
         </div>
         <div class="card-meta">
           <div class="card-title">AWS Certified Cloud Practitioner</div>
@@ -1693,11 +1430,9 @@
         </div>
       </div>
 
-      <div class="showcase-card argon-card gallery-trigger">
+      <div class="showcase-card argon-card">
         <div class="showcase-img-wrap cert-photo-wrap">
-          <img src="image/associate-cloud-engineer-certification.png"
-               alt="Google Associate Cloud Engineer"
-               onerror="this.src='https://images.credly.com/size/680x680/images/08096465-cbfc-4c3e-93e5-93c5aa61f23e/image.png'">
+          <img src="image/associate-cloud-engineer-certification.png" alt="Google ACE" onerror="this.src='https://images.credly.com/size/680x680/images/08096465-cbfc-4c3e-93e5-93c5aa61f23e/image.png'">
         </div>
         <div class="card-meta">
           <div class="card-title">Google Associate Cloud Engineer</div>
@@ -1712,16 +1447,15 @@
     <div class="section-title">
       <div class="eyebrow">08 // Direct Channel</div>
       <h2>Get In Touch via Google Form</h2>
-      <p>Click "Launch Google Form" to open the Google Form in a new tab, or submit directly below.</p>
     </div>
 
     <div class="contact-grid">
       <div class="google-form-card argon-card">
         <div>
-          <div class="argon-badge" style="margin-bottom:14px;"><i class="fab fa-google"></i> GOOGLE FORMS & BOT-SHIELD ACTIVE</div>
+          <div class="argon-badge" style="margin-bottom:14px;"><i class="fab fa-google"></i> GOOGLE FORMS CONNECTED</div>
           <h3 style="font-size:26px; margin:0 0 12px;">Instant Google Form Portal</h3>
           <p style="color:var(--muted); line-height:1.7; font-size:14.5px;">
-            Prefer filling out the official Google Form directly? Click below to launch the Google Form in a new window, or reach out via encrypted WhatsApp, phone, or email.
+            Click below to open the official Google Form in a new tab, or send a quick message directly.
           </p>
           <div style="margin-top:22px; display:flex; flex-direction:column; gap:10px; font-size:14px;">
             <div><i class="fas fa-envelope" style="color:var(--neon-1); width:22px;"></i> <a href="#" id="protectedEmailContact" style="color:var(--text); text-decoration:none;">Protected</a></div>
@@ -1731,14 +1465,14 @@
         </div>
 
         <div style="margin-top:28px;">
-          <a href="#" id="directGoogleFormLink" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%; justify-content:center;">
+          <a href="https://docs.google.com/forms/d/1mzh6UV4CJjBls4SdTXH0o9MkIiDFdDzVvXuGZRS57Zs/viewform" id="directGoogleFormLink" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%; justify-content:center;">
             <i class="fas fa-external-link-alt"></i> Launch Google Form Now
           </a>
         </div>
       </div>
 
       <form class="contact-wrap argon-card" id="argonContactForm">
-        <h3 style="margin:0 0 6px;">Quick Message (Syncs with Google Form & Email)</h3>
+        <h3 style="margin:0 0 6px;">Quick Message</h3>
         <input id="name" name="name" class="input" placeholder="Your Full Name *" required />
         <input id="email" name="email" type="email" class="input" placeholder="Your Email Address *" required />
         <input id="subject" name="subject" class="input" placeholder="Subject / Role Opportunity" />
@@ -1748,7 +1482,7 @@
           <button type="submit" class="btn btn-primary" style="flex:1; justify-content:center;">
             <i class="fas fa-paper-plane"></i> Submit & Open Google Form
           </button>
-          <button type="reset" class="btn btn-ghost" id="resetBtn">Reset</button>
+          <button type="reset" class="btn btn-ghost">Reset</button>
         </div>
         <div id="formStatus" style="text-align:center; color:var(--neon-1); font-size:13px; margin-top:6px;"></div>
       </form>
@@ -1756,230 +1490,180 @@
   </section>
 
   <footer>
-    © 2026 Manish Kumar R — Engineered with <strong>Argon 4.15 3D (Cyber-Shield & Live Visitor Alert)</strong> · Cloud & DevOps Engineer Portfolio
+    © 2026 Manish Kumar R — Engineered with <strong>Argon 4.17 3D (Mobile Blackout Shield)</strong>
   </footer>
-</div>
-
-<!-- CLEAN FULL-SCREEN IMAGE PREVIEW MODAL -->
-<div class="gallery-modal" id="galleryModal" role="dialog" aria-hidden="true">
-  <div class="gallery-top-bar">
-    <button class="gallery-close-btn" id="galleryClose" title="Close (Esc)">✕</button>
-  </div>
-  <div class="gallery-stage">
-    <img id="galleryMainImg" src="" alt="Preview">
-  </div>
 </div>
 
 <script>
 /* =========================================================================
-   ARGON 4.15 — BASE64 ANTI-BOT + ANTI-SCREENSHOT + VISITOR EMAIL ALERT
+   ARGON 4.17 — PHONE & DESKTOP 100% BLANK BLACK SCREEN PRIVACY ENGINE
    ========================================================================= */
 const ENCODED_WA_PHONE = 'OTE4MzAwNjYwMjE3';              // 918300660217
 const ENCODED_DISPLAY_PHONE = 'KzkxLTgzMDA2NjAyMTc=';     // +91-8300660217
 const ENCODED_EMAIL = 'bWFuaS5jYW4xMzExQGdtYWlsLmNvbQ=='; // mani.can1311@gmail.com
-
-const GOOGLE_FORM_VIEW_URL = "https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID_HERE/viewform";
+const GOOGLE_FORM_VIEW_URL = "https://docs.google.com/forms/d/1mzh6UV4CJjBls4SdTXH0o9MkIiDFdDzVvXuGZRS57Zs/viewform";
 const RESUME_FILE_PATH = "R_ManishKumar_Resume_26_10_26.pdf";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
-/* =========================================================================
-   1. AUTOMATIC VISITOR VIEW EMAIL ALERT (SENDS TO YOUR GMAIL ON PAGE VIEW)
-   ========================================================================= */
-async function sendVisitorEmailAlert(eventType = "Portfolio Page Viewed") {
-  // Prevent sending duplicate alerts on simple page refresh within the same session
-  if (eventType === "Portfolio Page Viewed" && sessionStorage.getItem('argon_visitor_alerted')) {
+const blackoutCurtain = document.getElementById('blackoutCurtain');
+let privacyHoldMode = false;
+
+function activateFullBlankScreen() {
+  document.body.classList.add('blackout-active');
+}
+
+function deactivateFullBlankScreen() {
+  document.body.classList.remove('blackout-active');
+}
+
+// 1. Optional "Hold-to-View" Dead-Man's Switch (Guarantees 100% black screen if user lifts thumb to press iPhone Power+Volume buttons)
+const privacyHoldToggle = document.getElementById('privacyHoldToggle');
+const privacyHoldLabel = document.getElementById('privacyHoldLabel');
+
+privacyHoldToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  privacyHoldMode = !privacyHoldMode;
+  privacyHoldLabel.textContent = privacyHoldMode ? 'ON' : 'OFF';
+  privacyHoldToggle.classList.toggle('privacy-active', privacyHoldMode);
+  if (privacyHoldMode) {
+    activateFullBlankScreen();
+  } else {
+    deactivateFullBlankScreen();
+  }
+});
+
+// 2. Mobile Touch & Multi-Finger Gesture Screenshot Defense
+window.addEventListener('touchstart', (e) => {
+  // If 2 or more fingers touch the screen (3-finger screenshot gesture), immediately black out screen
+  if (e.touches && e.touches.length >= 2) {
+    activateFullBlankScreen();
     return;
   }
+  if (privacyHoldMode) {
+    deactivateFullBlankScreen();
+  }
+}, { passive: true });
 
+window.addEventListener('touchend', (e) => {
+  if (privacyHoldMode && (!e.touches || e.touches.length === 0)) {
+    activateFullBlankScreen();
+  }
+}, { passive: true });
+
+window.addEventListener('touchcancel', () => {
+  activateFullBlankScreen();
+}, { passive: true });
+
+// 3. iOS Control Center / Notification Shade / App Switcher / AssistiveTouch -> Instant Full Blank Black Screen
+window.addEventListener('blur', activateFullBlankScreen);
+window.addEventListener('pagehide', activateFullBlankScreen);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    activateFullBlankScreen();
+  }
+});
+
+// Tap black screen once with 1 finger to restore view (when not in Hold-to-View mode)
+blackoutCurtain.addEventListener('click', () => {
+  if (!privacyHoldMode) deactivateFullBlankScreen();
+});
+window.addEventListener('focus', () => {
+  if (!privacyHoldMode) deactivateFullBlankScreen();
+});
+
+// 4. Desktop PrintScreen & Shortcut Blackout
+window.addEventListener('keyup', (e) => {
+  if (e.key === 'PrintScreen' || e.keyCode === 44) {
+    activateFullBlankScreen();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText('').catch(() => {});
+    }
+  }
+});
+
+window.addEventListener('keydown', (e) => {
+  if (
+    e.key === 'PrintScreen' ||
+    e.key === 'F12' ||
+    (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c', 'S', 's'].includes(e.key)) ||
+    (e.metaKey && e.shiftKey && ['3', '4', '5', 's', 'S'].includes(e.key)) ||
+    ((e.ctrlKey || e.metaKey) && ['u', 'U', 's', 'S', 'p', 'P'].includes(e.key))
+  ) {
+    e.preventDefault();
+    activateFullBlankScreen();
+    return false;
+  }
+});
+
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+/* ========== Decode Contact Info & Send Visitor Email Alert ========== */
+async function sendVisitorEmailAlert(eventType = "Portfolio Page Viewed") {
+  if (eventType === "Portfolio Page Viewed" && sessionStorage.getItem('argon_visitor_alerted')) return;
   try {
     let geoData = {};
     try {
       const res = await fetch('https://ipapi.co/json/');
       if (res.ok) geoData = await res.json();
-    } catch (err) {
-      geoData = { ip: "Unknown", city: "Unknown", region: "Unknown", country_name: "Unknown", org: "Unknown" };
-    }
+    } catch (err) {}
 
     const ownerEmail = atob(ENCODED_EMAIL);
-    const payload = {
-      _subject: `🔔 Portfolio Alert: ${eventType} (${geoData.city || 'New Visitor'}, ${geoData.country_name || ''})`,
-      _template: "table",
-      _captcha: "false",
-      Event: eventType,
-      Visitor_IP: geoData.ip || "Hidden / VPN",
-      Location: `${geoData.city || 'Unknown'}, ${geoData.region || ''}, ${geoData.country_name || ''}`,
-      ISP_Organization: geoData.org || "Unknown",
-      Device_Browser: navigator.userAgent,
-      Screen_Resolution: `${window.screen.width}x${window.screen.height}`,
-      Referrer_Source: document.referrer || "Direct Link / Bookmark",
-      Viewed_At_IST: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-    };
-
     await fetch(`https://formsubmit.co/ajax/${ownerEmail}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        _subject: `🔔 Portfolio Alert: ${eventType} (${geoData.city || 'Visitor'})`,
+        _template: "table",
+        _captcha: "false",
+        Event: eventType,
+        Visitor_IP: geoData.ip || "Hidden",
+        Location: `${geoData.city || ''}, ${geoData.region || ''}, ${geoData.country_name || ''}`,
+        Device: navigator.userAgent,
+        Time_IST: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+      })
     });
-
-    if (eventType === "Portfolio Page Viewed") {
-      sessionStorage.setItem('argon_visitor_alerted', 'true');
-    }
-  } catch (e) {
-    // Silent fail so visitor experience is never interrupted
-  }
+    if (eventType === "Portfolio Page Viewed") sessionStorage.setItem('argon_visitor_alerted', 'true');
+  } catch (e) {}
 }
 
-/* =========================================================================
-   2. ANTI-SCREENSHOT, ANTI-SNIPPING TOOL & ANTI-INSPECT SECURITY SHIELD
-   ========================================================================= */
-const shieldOverlay = document.getElementById('securityShield');
-const shieldMessage = document.getElementById('shieldMessage');
-
-function triggerSecurityShield(reason) {
-  document.body.classList.add('security-blur');
-  if (reason) shieldMessage.textContent = reason;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText('Protected Portfolio — Manish Kumar R').catch(() => {});
-  }
-}
-
-// A. Blur portfolio immediately when window loses focus (blocks Windows Snipping Tool / Mac Cmd+Shift+4 / Alt+Tab)
-window.addEventListener('blur', () => {
-  triggerSecurityShield("Portfolio display paused while window is out of focus or a screen capture tool is active. Click inside the window to resume viewing.");
-});
-
-window.addEventListener('focus', () => {
-  document.body.classList.remove('security-blur');
-});
-
-shieldOverlay.addEventListener('click', () => {
-  document.body.classList.remove('security-blur');
-});
-
-// B. Block PrintScreen, Ctrl+P, Ctrl+S, Ctrl+U, Ctrl+C, and F12 / DevTools shortcuts
-window.addEventListener('keyup', (e) => {
-  if (e.key === 'PrintScreen' || e.keyCode === 44) {
-    triggerSecurityShield("⚠️ Screenshot attempt detected! Screen capture is disabled on this portfolio.");
-    sendVisitorEmailAlert("Screenshot Attempt Blocked (PrintScreen)");
-  }
-});
-
-window.addEventListener('keydown', (e) => {
-  // Block PrintScreen, F12, Ctrl+Shift+I/J/C/S, Ctrl+U, Ctrl+S, Ctrl+P
-  if (
-    e.key === 'PrintScreen' ||
-    e.key === 'F12' ||
-    (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c', 'S', 's'].includes(e.key)) ||
-    (e.metaKey && e.shiftKey && ['3', '4', '5', 's', 'S', 'i', 'I'].includes(e.key)) ||
-    ((e.ctrlKey || e.metaKey) && ['u', 'U', 's', 'S', 'p', 'P'].includes(e.key))
-  ) {
-    e.preventDefault();
-    e.stopPropagation();
-    triggerSecurityShield("⚠️ Protected Action Blocked: Screen capture, saving, printing, and source inspection are disabled.");
-    return false;
-  }
-});
-
-// C. Disable Right-Click Context Menu & Copy/Cut
-document.addEventListener('contextmenu', (e) => e.preventDefault());
-document.addEventListener('copy', (e) => {
-  if (!['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
-    e.preventDefault();
-  }
-});
-
-/* ========== Decode Contact Info & Trigger Visitor Email Alert on Load ========== */
 window.addEventListener('DOMContentLoaded', () => {
   const decodedDisplayPhone = atob(ENCODED_DISPLAY_PHONE);
   const decodedEmail = atob(ENCODED_EMAIL);
 
-  const phoneAbout = document.getElementById('protectedPhoneAbout');
-  const phoneContact = document.getElementById('protectedPhoneContact');
-  const emailAbout = document.getElementById('protectedEmailAbout');
-  const emailContact = document.getElementById('protectedEmailContact');
+  document.getElementById('protectedPhoneAbout').textContent = decodedDisplayPhone;
+  document.getElementById('protectedPhoneContact').textContent = decodedDisplayPhone;
 
-  if (phoneAbout) phoneAbout.textContent = decodedDisplayPhone;
-  if (phoneContact) phoneContact.textContent = decodedDisplayPhone;
-
-  [emailAbout, emailContact].forEach(el => {
+  [document.getElementById('protectedEmailAbout'), document.getElementById('protectedEmailContact')].forEach(el => {
     if (!el) return;
     el.textContent = decodedEmail;
     el.addEventListener('click', (e) => {
       e.preventDefault();
-      window.location.href = `mailto:${atob(ENCODED_EMAIL)}?subject=Cloud%20%26%20DevOps%20Role%20Inquiry`;
+      window.location.href = `mailto:${decodedEmail}?subject=Cloud%20%26%20DevOps%20Role%20Inquiry`;
     });
   });
 
-  // Fire automatic visitor view alert email to mani.can1311@gmail.com
   sendVisitorEmailAlert("Portfolio Page Viewed");
 });
 
-/* ========== Bot-Protected WhatsApp Click Handler ========== */
+/* ========== Bot-Protected WhatsApp & Email Dock ========== */
 document.getElementById('secureWhatsappBtn').addEventListener('click', (e) => {
   e.preventDefault();
-  sendVisitorEmailAlert("Clicked WhatsApp Contact Button");
   const rawPhone = atob(ENCODED_WA_PHONE);
   const msg = encodeURIComponent("Hi Manish, I saw your DevOps portfolio and would like to connect!");
   window.open(`https://wa.me/${rawPhone}?text=${msg}`, '_blank', 'noopener,noreferrer');
 });
 
-/* ========== Bot-Protected Email Dock Click Handler ========== */
 document.getElementById('secureEmailBtn').addEventListener('click', (e) => {
   e.preventDefault();
-  sendVisitorEmailAlert("Clicked Email Contact Button");
-  const rawEmail = atob(ENCODED_EMAIL);
-  window.location.href = `mailto:${rawEmail}?subject=Cloud%20%26%20DevOps%20Role%20Inquiry`;
+  window.location.href = `mailto:${atob(ENCODED_EMAIL)}?subject=Cloud%20%26%20DevOps%20Role%20Inquiry`;
 });
 
-/* ========== Quick-Contact Floating Dock Toggle ========== */
-const dockEl = document.getElementById('quickContactDock');
-const dockBtn = document.getElementById('dockToggleBtn');
-dockBtn.addEventListener('click', () => {
-  dockEl.classList.toggle('open');
+document.getElementById('dockToggleBtn').addEventListener('click', () => {
+  document.getElementById('quickContactDock').classList.toggle('open');
 });
 
-/* ========== 3D Hover Perspective Tilt + Spotlight Glow on Every Card ========== */
-document.querySelectorAll('.argon-card').forEach(card => {
-  card.addEventListener('mousemove', (e) => {
-    if (card.classList.contains('is-dragging')) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    card.style.setProperty('--mouse-x', `${x}px`);
-    card.style.setProperty('--mouse-y', `${y}px`);
-
-    const rotY = ((x / rect.width) - 0.5) * 14;
-    const rotX = ((y / rect.height) - 0.5) * -14;
-
-    gsap.to(card, {
-      rotationY: rotY,
-      rotationX: rotX,
-      scale: 1.015,
-      transformPerspective: 1000,
-      duration: 0.25,
-      ease: "power2.out",
-      overwrite: "auto"
-    });
-  });
-
-  card.addEventListener('mouseleave', () => {
-    if (card.classList.contains('is-dragging')) return;
-    gsap.to(card, {
-      rotationY: 0,
-      rotationX: 0,
-      scale: 1,
-      duration: 0.65,
-      ease: "elastic.out(1, 0.5)",
-      overwrite: "auto"
-    });
-  });
-});
-
-/* ========== UNIVERSAL 3D DRAG PHYSICS ENGINE (ALL AREAS) ========== */
+/* ========== 3D Hover & Drag Engine ========== */
 Draggable.create(".argon-card", {
   type: "x,y",
   edgeResistance: 0.65,
@@ -1987,77 +1671,30 @@ Draggable.create(".argon-card", {
   onPress() {
     this.lastX = this.x;
     this.lastY = this.y;
-    this.target.dataset.moved = "false";
     this.target.classList.add('is-dragging');
-
-    gsap.to(this.target, {
-      scale: 1.05,
-      rotationX: 6,
-      rotationY: -6,
-      transformPerspective: 1000,
-      duration: 0.2,
-      ease: "power2.out"
-    });
   },
   onDrag() {
-    if (Math.abs(this.x) > 5 || Math.abs(this.y) > 5) {
-      this.target.dataset.moved = "true";
-    }
-    const vx = Math.max(-24, Math.min(24, (this.x - this.lastX) * 1.25));
-    const vy = Math.max(-24, Math.min(24, (this.y - this.lastY) * 1.25));
+    const vx = Math.max(-20, Math.min(20, (this.x - this.lastX) * 1.2));
+    const vy = Math.max(-20, Math.min(20, (this.y - this.lastY) * 1.2));
     this.lastX = this.x;
     this.lastY = this.y;
-
-    gsap.to(this.target, {
-      rotationY: vx,
-      rotationX: -vy,
-      rotationZ: vx * 0.2,
-      scale: 1.06,
-      transformPerspective: 1000,
-      duration: 0.12,
-      overwrite: "auto"
-    });
+    gsap.to(this.target, { rotationY: vx, rotationX: -vy, scale: 1.04, transformPerspective: 1000, duration: 0.12, overwrite: "auto" });
   },
   onRelease() {
     this.target.classList.remove('is-dragging');
-    gsap.to(this.target, {
-      x: 0,
-      y: 0,
-      scale: 1,
-      rotationX: 0,
-      rotationY: 0,
-      rotationZ: 0,
-      duration: 0.85,
-      ease: "elastic.out(1, 0.5)"
-    });
+    gsap.to(this.target, { x: 0, y: 0, scale: 1, rotationX: 0, rotationY: 0, duration: 0.8, ease: "elastic.out(1, 0.5)" });
   }
 });
 
-/* ========== Preloader Animation ========== */
-const progressBar = document.getElementById('progressBar');
-gsap.to(progressBar, {
+/* ========== Preloader & Role Rotator ========== */
+gsap.to('#progressBar', {
   width: "100%",
-  duration: 1.0,
-  ease: "power3.out",
+  duration: 0.9,
   onComplete: () => {
-    gsap.to('#preloader', {
-      opacity: 0,
-      duration: 0.45,
-      onComplete() {
-        document.getElementById('preloader').style.display = 'none';
-      }
-    });
-    gsap.from('.hero-left > *', {
-      y: 28,
-      opacity: 0,
-      duration: 0.75,
-      stagger: 0.1,
-      ease: "power3.out"
-    });
+    gsap.to('#preloader', { opacity: 0, duration: 0.4, onComplete: () => document.getElementById('preloader').style.display = 'none' });
   }
 });
 
-/* ========== Typewriter Role Rotator ========== */
 const roles = [
   "AWS Certified Solutions Architect - Associate",
   "AWS Certified CloudOps Engineer - Associate",
@@ -2065,115 +1702,27 @@ const roles = [
   "Kubernetes (EKS) · Terraform · Jenkins · Argo CD"
 ];
 let roleIdx = 0;
-const typedOutput = document.getElementById('typedOutput');
 setInterval(() => {
   roleIdx = (roleIdx + 1) % roles.length;
-  gsap.to(typedOutput, {
-    opacity: 0,
-    y: -6,
-    duration: 0.25,
-    onComplete: () => {
-      typedOutput.textContent = roles[roleIdx];
-      gsap.to(typedOutput, { opacity: 1, y: 0, duration: 0.35 });
-    }
-  });
+  document.getElementById('typedOutput').textContent = roles[roleIdx];
 }, 3200);
 
-/* ========== CLEAN IMAGE LIGHTBOX ON CLICK ========== */
-const galleryModal = document.getElementById('galleryModal');
-const galleryMainImg = document.getElementById('galleryMainImg');
-
-document.querySelectorAll('.gallery-trigger').forEach(card => {
-  card.addEventListener('click', () => {
-    if (card.dataset.moved === "true") return;
-    const imgEl = card.querySelector('img');
-    if (!imgEl || !imgEl.src) return;
-    galleryMainImg.src = imgEl.src;
-    galleryModal.classList.add('open');
-    gsap.fromTo(galleryMainImg,
-      { opacity: 0.2, scale: 0.92 },
-      { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
-    );
-  });
-});
-
-document.getElementById('galleryClose').addEventListener('click', () => galleryModal.classList.remove('open'));
-galleryModal.addEventListener('click', (e) => {
-  if (e.target === galleryModal) galleryModal.classList.remove('open');
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') galleryModal.classList.remove('open');
-});
-
-/* ========== Resume Download (Also Sends You an Email Alert!) ========== */
+/* ========== Resume & Google Form Handlers ========== */
 document.getElementById('downloadResume').addEventListener('click', () => {
-  sendVisitorEmailAlert("Downloaded Your Resume PDF");
+  sendVisitorEmailAlert("Downloaded Resume PDF");
   const a = document.createElement('a');
   a.href = RESUME_FILE_PATH;
   a.download = "R_ManishKumar_Resume_26_10_26.pdf";
   a.click();
 });
 
-/* ========== Google Form Redirect & Contact Integration ========== */
-const openGoogleForm = (prefillParams = "") => {
-  window.open(GOOGLE_FORM_VIEW_URL + prefillParams, '_blank', 'noopener,noreferrer');
-};
-
-document.getElementById('directGoogleFormLink').href = GOOGLE_FORM_VIEW_URL;
-document.getElementById('heroGoogleFormBtn').addEventListener('click', () => openGoogleForm());
+document.getElementById('heroGoogleFormBtn').addEventListener('click', () => {
+  window.open(GOOGLE_FORM_VIEW_URL, '_blank', 'noopener,noreferrer');
+});
 
 document.getElementById('argonContactForm').addEventListener('submit', (e) => {
   e.preventDefault();
-  const name = encodeURIComponent(document.getElementById('name').value.trim());
-  const email = encodeURIComponent(document.getElementById('email').value.trim());
-  const subject = encodeURIComponent(document.getElementById('subject').value.trim());
-  const message = encodeURIComponent(document.getElementById('message').value.trim());
-
-  sendVisitorEmailAlert(`Contact Form Submitted by ${decodeURIComponent(name)} (${decodeURIComponent(email)})`);
-  document.getElementById('formStatus').textContent = "Alert sent to Manish & opening Google Form...";
-  openGoogleForm(`?usp=pp_url&entry.1000001=${name}&entry.1000002=${email}&entry.1000003=${subject}&entry.1000004=${message}`);
-});
-
-/* ========== Theme Toggle ========== */
-const themeToggle = document.getElementById('themeToggle');
-const themeLabel = document.getElementById('themeLabel');
-const setTheme = (theme) => {
-  if (theme === 'light') {
-    document.documentElement.style.setProperty('--bg', '#f4f7ff');
-    document.documentElement.style.setProperty('--text', '#081024');
-    document.documentElement.style.setProperty('--muted', 'rgba(8, 16, 36, 0.68)');
-    document.documentElement.style.setProperty('--glass-border', 'rgba(8, 16, 36, 0.14)');
-    document.documentElement.style.setProperty('--neon-1', '#0055ff');
-    document.documentElement.style.setProperty('--neon-2', '#9d00ff');
-    themeLabel.innerText = 'Light';
-  } else {
-    document.documentElement.style.setProperty('--bg', '#000000');
-    document.documentElement.style.setProperty('--text', '#f2f6ff');
-    document.documentElement.style.setProperty('--muted', 'rgba(242, 246, 255, 0.68)');
-    document.documentElement.style.setProperty('--glass-border', 'rgba(255, 255, 255, 0.12)');
-    document.documentElement.style.setProperty('--neon-1', '#00f0ff');
-    document.documentElement.style.setProperty('--neon-2', '#ff00e5');
-    themeLabel.innerText = 'Black';
-  }
-  localStorage.setItem('argon_theme', theme);
-};
-setTheme(localStorage.getItem('argon_theme') || 'dark');
-themeToggle.addEventListener('click', () => {
-  const cur = localStorage.getItem('argon_theme') || 'dark';
-  setTheme(cur === 'dark' ? 'light' : 'dark');
-});
-
-/* ========== 3D Scroll Reveal Animations ========== */
-gsap.utils.toArray('section').forEach(sec => {
-  gsap.from(sec, {
-    scrollTrigger: { trigger: sec, start: "top 86%" },
-    y: 40,
-    rotationX: 6,
-    opacity: 0,
-    transformPerspective: 1000,
-    duration: 0.75,
-    ease: "power2.out"
-  });
+  window.open(GOOGLE_FORM_VIEW_URL, '_blank', 'noopener,noreferrer');
 });
 </script>
 </body>
