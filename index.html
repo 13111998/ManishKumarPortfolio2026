@@ -17,14 +17,14 @@
 <style>
   :root {
     --bg: #000000;
-    --card-bg: #050509;
+    --card-bg: rgba(5, 5, 12, 0.72);
     --glass: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.14);
     --neon-1: #00f0ff;
     --neon-2: #ff00e5;
     --credly-orange: #ff6b00;
     --text: #f2f6ff;
-    --muted: rgba(242, 246, 255, 0.68);
+    --muted: rgba(242, 246, 255, 0.74);
     --accent: linear-gradient(135deg, var(--neon-1), var(--neon-2));
     --argon-glow: 0 22px 55px -10px rgba(0, 240, 255, 0.38);
   }
@@ -43,23 +43,84 @@
     overflow-x: hidden;
   }
 
-  /* Pure Black Cyber Grid */
+  /* ── GLOBAL FIXED SPLINE 3D BACKGROUND (VISIBLE ACROSS ALL SECTIONS) ── */
+  .spline-stage {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: auto;
+    will-change: transform;
+    touch-action: pan-y;
+    overflow: hidden;
+  }
+
+  #splineCanvas,
+  iframe.spline-bg {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0;
+    z-index: 1;
+    opacity: 1 !important;
+    display: block;
+    touch-action: pan-y !important;
+    filter: url(#permanentCreviceGlowFilter) brightness(1.38) contrast(1.35) saturate(2.35);
+  }
+
+  @media (hover: none) and (pointer: coarse), (max-width: 920px) {
+    .spline-stage,
+    iframe.spline-bg {
+      pointer-events: none;
+    }
+  }
+
+  /* Ambient Neon Orbs (Fixed with 3D Stage) */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.28;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .orb.orb-1 { width: 450px; height: 450px; left: -120px; top: -60px; background: radial-gradient(circle, var(--neon-1), transparent 60%); }
+  .orb.orb-2 { width: 420px; height: 420px; right: -80px; bottom: -100px; background: radial-gradient(circle, var(--neon-2), transparent 60%); }
+
+  /* Subtle Cyber Grid Overlay Above 3D Stage */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     background-image: 
-      linear-gradient(rgba(0, 240, 255, 0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 240, 255, 0.025) 1px, transparent 1px);
+      linear-gradient(rgba(0, 240, 255, 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.022) 1px, transparent 1px);
     background-size: 48px 48px;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
   }
 
   .wrap {
     position: relative;
     min-height: 100vh;
-    z-index: 1;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Allow interactive elements inside .wrap to receive clicks/drags while letting empty background pass mouse hover to Spline */
+  nav,
+  .quick-contact-dock,
+  .argon-card,
+  .btn,
+  .argon-badge,
+  a,
+  button,
+  input,
+  textarea,
+  .section-title {
+    pointer-events: auto;
   }
 
   /* ── NAVIGATION (PURE BLACK FLOATING DOCK) ── */
@@ -73,7 +134,7 @@
     gap: 6px;
     align-items: center;
     padding: 8px 14px;
-    background: rgba(0, 0, 0, 0.88);
+    background: rgba(0, 0, 0, 0.82);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
@@ -164,7 +225,8 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: #080812;
+    background: rgba(8, 8, 18, 0.88);
+    backdrop-filter: blur(12px);
     border: 1px solid rgba(0, 240, 255, 0.35);
     color: var(--text);
     display: flex;
@@ -260,7 +322,7 @@
     background: var(--accent);
   }
 
-  /* ── HERO SECTION (AUTO-SCROLL SPLINE ENGINE — NO TOGGLE BUTTON) ── */
+  /* ── HERO SECTION (TRANSPARENT OVER FIXED 3D STAGE) ── */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -270,49 +332,8 @@
     justify-content: center;
     overflow: hidden;
     padding: 110px 6% 80px;
-    background: #000000;
+    background: transparent;
   }
-
-  .spline-stage {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    will-change: transform;
-    touch-action: pan-y;
-  }
-
-  #splineCanvas,
-  .hero iframe.spline-bg {
-    position: absolute;
-    inset: 0;
-    width: 100% !important;
-    height: 100% !important;
-    border: 0;
-    z-index: 1;
-    opacity: 1 !important;
-    display: block;
-    touch-action: pan-y !important;
-    filter: url(#permanentCreviceGlowFilter) brightness(1.38) contrast(1.35) saturate(2.35);
-  }
-
-  @media (hover: none) and (pointer: coarse), (max-width: 920px) {
-    .hero iframe.spline-bg {
-      pointer-events: none;
-    }
-  }
-
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: 0.35;
-    z-index: 2;
-    pointer-events: none;
-  }
-  .orb.orb-1 { width: 450px; height: 450px; left: -120px; top: -60px; background: radial-gradient(circle, var(--neon-1), transparent 60%); }
-  .orb.orb-2 { width: 420px; height: 420px; right: -80px; bottom: -100px; background: radial-gradient(circle, var(--neon-2), transparent 60%); }
 
   .hero-content {
     position: relative;
@@ -329,12 +350,6 @@
   .hero-left {
     max-width: 780px;
     pointer-events: none;
-  }
-
-  .hero-left .cta-row,
-  .hero-left .btn,
-  .hero-left .argon-badge {
-    pointer-events: auto;
   }
 
   .argon-badge {
@@ -373,6 +388,7 @@
     line-height: 1.05;
     margin-bottom: 14px;
     letter-spacing: -1px;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
   }
 
   .intro span {
@@ -388,6 +404,7 @@
     font-weight: 600;
     margin-bottom: 14px;
     min-height: 28px;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
   }
 
   .subtitle {
@@ -396,6 +413,7 @@
     line-height: 1.65;
     max-width: 680px;
     margin-bottom: 28px;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
   }
 
   .cta-row {
@@ -425,33 +443,35 @@
   }
 
   .btn-ghost {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(0, 0, 0, 0.55);
     border: 1px solid var(--glass-border);
     color: var(--text);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
   }
 
   .btn-credly {
-    background: rgba(255, 107, 0, 0.12);
+    background: rgba(255, 107, 0, 0.14);
     border: 1px solid rgba(255, 107, 0, 0.5);
     color: var(--credly-orange);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
   }
   .btn-credly:hover {
     box-shadow: 0 10px 28px rgba(255, 107, 0, 0.32);
     transform: translateY(-2px);
   }
 
-  /* ── SECTIONS & HEADINGS ── */
+  /* ── SECTIONS & HEADINGS (TRANSPARENT FOR FIXED 3D VISIBILITY) ── */
   section {
     padding: 88px 6%;
     position: relative;
+    background: transparent;
   }
 
   .section-title {
     max-width: 1280px;
     margin: 0 auto 36px;
     will-change: transform, opacity;
+    text-shadow: 0 6px 24px rgba(0, 0, 0, 0.9);
   }
 
   .section-title .eyebrow {
@@ -477,16 +497,18 @@
     margin: 0;
   }
 
-  /* ── PURE BLACK 3D PERSPECTIVE DRAG CARD ENGINE ── */
+  /* ── TRANSLUCENT GLASS 3D PERSPECTIVE DRAG CARD ENGINE ── */
   .argon-card {
     position: relative;
     overflow: hidden;
-    background: #050509;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
     cursor: grab;
     touch-action: pan-y;
     will-change: transform, opacity, box-shadow;
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.78);
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
@@ -510,7 +532,7 @@
   .argon-card.is-dragging {
     border-color: var(--neon-1);
     box-shadow:
-      0 35px 70px rgba(0, 0, 0, 0.95),
+      0 35px 70px rgba(0, 0, 0, 0.9),
       0 0 38px rgba(0, 240, 255, 0.35),
       inset 0 0 18px rgba(0, 240, 255, 0.12);
   }
@@ -539,8 +561,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    background: #040408;
-    border: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .profile-img-box {
@@ -549,7 +569,7 @@
     margin: 0 auto;
     border-radius: 16px;
     overflow: hidden;
-    background: #000000 !important;
+    background: rgba(0, 0, 0, 0.75) !important;
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -563,7 +583,6 @@
     object-fit: contain;
     object-position: bottom center;
     display: block;
-    background: #000000 !important;
   }
 
   .profile-meta {
@@ -587,7 +606,7 @@
     width: 42px;
     height: 42px;
     border-radius: 12px;
-    background: #0a0a12;
+    background: rgba(10, 10, 18, 0.8);
     border: 1px solid var(--glass-border);
     color: var(--text);
     text-decoration: none;
@@ -636,7 +655,7 @@
     gap: 12px;
     padding: 16px;
     border-radius: 14px;
-    background: #000000;
+    background: rgba(0, 0, 0, 0.55);
     border: 1px solid rgba(255, 255, 255, 0.08);
     margin-bottom: 22px;
     font-size: 14px;
@@ -654,7 +673,7 @@
   }
 
   .skill-pill {
-    background: #08080f;
+    background: rgba(8, 8, 15, 0.78);
     padding: 8px 14px;
     border-radius: 999px;
     border: 1px solid var(--glass-border);
@@ -707,7 +726,7 @@
     font-size: 11px;
     font-family: 'JetBrains Mono', monospace;
     border: 1px solid rgba(0, 240, 255, 0.28);
-    background: #000000;
+    background: rgba(0, 0, 0, 0.65);
     padding: 4px 10px;
     border-radius: 999px;
     color: var(--text);
@@ -790,7 +809,7 @@
   }
 
   .step-transparent-card {
-    background: rgba(0, 0, 0, 0.65) !important;
+    background: rgba(5, 5, 12, 0.68) !important;
     border-radius: 20px;
     padding: 24px 28px;
   }
@@ -895,7 +914,7 @@
     height: 100%;
     border-radius: 14px;
     overflow: hidden;
-    background: #000000;
+    background: rgba(0, 0, 0, 0.7);
   }
 
   .project-visual-card .showcase-img-wrap img {
@@ -944,11 +963,11 @@
     height: 195px;
     border-radius: 14px;
     overflow: hidden;
-    background: #000000;
+    background: rgba(0, 0, 0, 0.65);
   }
 
   .cert-photo-wrap {
-    background: #000000 !important;
+    background: rgba(0, 0, 0, 0.65) !important;
     padding: 12px;
   }
 
@@ -1008,7 +1027,7 @@
     padding: 13px 16px;
     border-radius: 12px;
     border: 1px solid var(--glass-border);
-    background: #000000;
+    background: rgba(0, 0, 0, 0.72);
     color: var(--text);
     font-family: inherit;
     font-size: 14px;
@@ -1021,7 +1040,8 @@
     color: var(--muted);
     font-size: 14px;
     border-top: 1px solid var(--glass-border);
-    background: #000000;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(12px);
   }
 
   @media (max-width: 920px) {
@@ -1045,6 +1065,14 @@
     </filter>
   </defs>
 </svg>
+
+<!-- GLOBAL FIXED 3D SPLINE BACKGROUND (STAYS VISIBLE BEHIND ALL SECTIONS) -->
+<div class="spline-stage" id="splineStage">
+  <canvas id="splineCanvas"></canvas>
+  <iframe class="spline-bg" id="splineIframe" src='https://my.spline.design/orb-WJJLRQLUDMdwoXsST4jT67gj/' frameborder='0' width='100%' height='100%' allow="fullscreen" style="display:none;"></iframe>
+</div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
 <div class="wrap" id="wrap">
 
@@ -1092,15 +1120,8 @@
     <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
   </div>
 
-  <!-- HERO WITH AUTO-SCROLL SPLINE 3D (NO MOBILE BUTTON) -->
+  <!-- HERO SECTION -->
   <header class="hero" id="home">
-    <div class="spline-stage" id="splineStage">
-      <canvas id="splineCanvas"></canvas>
-      <iframe class="spline-bg" id="splineIframe" src='https://my.spline.design/orb-WJJLRQLUDMdwoXsST4jT67gj/' frameborder='0' width='100%' height='100%' allow="fullscreen" style="display:none;"></iframe>
-    </div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-
     <div class="hero-content">
       <div class="hero-left">
         <div class="argon-badge hero-anim">
@@ -1146,7 +1167,7 @@
           <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" class="credly-social" title="Verified Credly Account"><i class="fas fa-award"></i></a>
           <a href="https://www.behance.net/manishkumar324" target="_blank" rel="noopener noreferrer" title="Behance"><i class="fab fa-behance"></i></a>
           <a href="https://github.com/" target="_blank" rel="noopener noreferrer" title="GitHub"><i class="fab fa-github"></i></a>
-          <a href="#Design" title="Projects Showcase"><i class="fab fa-google-drive"></i></a>
+          <a href="https://drive.google.com/drive/folders/1S6Y3Jna8-oWzcncy6T9Pl92ReXuF9Bzz" target="_blank" rel="noopener noreferrer" title="Google Drive"><i class="fab fa-google-drive"></i></a>
         </div>
       </div>
 
@@ -1400,10 +1421,10 @@
         <div class="argon-badge" style="margin-bottom:12px;"><i class="fas fa-language"></i> PROFICIENCY</div>
         <h3 style="font-size:24px; margin:0 0 14px;">Languages</h3>
         <div style="display:flex; flex-direction:column; gap:12px;">
-          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:#000; border:1px solid rgba(255,255,255,0.08);">
+          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:rgba(0,0,0,0.65); border:1px solid rgba(255,255,255,0.08);">
             <strong>Tamil</strong><span style="color:var(--neon-1);">Native</span>
           </div>
-          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:#000; border:1px solid rgba(255,255,255,0.08);">
+          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:rgba(0,0,0,0.65); border:1px solid rgba(255,255,255,0.08);">
             <strong>English</strong><span style="color:var(--neon-1);">Native</span>
           </div>
         </div>
@@ -1523,8 +1544,8 @@
         </div>
 
         <div style="margin-top:28px;">
-          <a href="#argonContactForm" id="directGoogleFormLink" class="btn btn-primary" style="width:100%; justify-content:center;">
-            <i class="fas fa-external-link-alt"></i> Launch Contact Form Now
+          <a href="https://docs.google.com/forms/d/1mzh6UV4CJjBls4SdTXH0o9MkIiDFdDzVvXuGZRS57Zs/viewform" id="directGoogleFormLink" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%; justify-content:center;">
+            <i class="fas fa-external-link-alt"></i> Launch Google Form Now
           </a>
         </div>
       </div>
@@ -1538,7 +1559,7 @@
 
         <div style="display:flex; gap:12px; margin-top:6px;">
           <button type="submit" class="btn btn-primary" style="flex:1; justify-content:center;">
-            <i class="fas fa-paper-plane"></i> Submit Message
+            <i class="fas fa-paper-plane"></i> Submit & Open Google Form
           </button>
           <button type="reset" class="btn btn-ghost">Reset</button>
         </div>
@@ -1552,7 +1573,7 @@
   </footer>
 </div>
 
-<!-- 1. AUTO-SCROLL & MOBILE SWIPE SPLINE 3D DRIVER -->
+<!-- 1. FULL-PAGE FIXED SPLINE 3D SCROLL & SWIPE DRIVER -->
 <script type="module">
   import { Application } from 'https://unpkg.com/@splinetool/runtime@1.9.28/build/runtime.js';
 
@@ -1578,22 +1599,29 @@
     });
   }
 
-  // Automatically morph/rotate Spline as the user scrolls down or up
+  // Continuously morph/rotate the fixed Spline orb across the ENTIRE document scroll height
   window.addEventListener('scroll', () => {
     lastUserInteraction = performance.now();
-    const rect = canvas.getBoundingClientRect();
-    if (rect.bottom < 0) return;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const scrollProgress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
 
-    const scrollProgress = Math.min(1, Math.max(0, window.scrollY / window.innerHeight));
-    const sweepAngle = scrollProgress * Math.PI * 4.0;
-
-    const targetX = rect.left + rect.width * (0.52 + Math.cos(sweepAngle) * 0.32);
-    const targetY = rect.top + rect.height * (0.48 + Math.sin(sweepAngle * 1.35) * 0.32);
+    // Multi-revolution figure-8 sweep across the full page scroll
+    const sweepAngle = scrollProgress * Math.PI * 10.0;
+    const targetX = window.innerWidth * (0.52 + Math.cos(sweepAngle) * 0.34);
+    const targetY = window.innerHeight * (0.50 + Math.sin(sweepAngle * 1.5) * 0.34);
 
     driveSplineAt(targetX, targetY);
   }, { passive: true });
 
-  // Automatically react to mobile finger swipes while scrolling vertically
+  // Forward desktop mouse movement anywhere on the page to the fixed Spline canvas
+  window.addEventListener('pointermove', (e) => {
+    if (e.isTrusted) {
+      lastUserInteraction = performance.now();
+      driveSplineAt(e.clientX, e.clientY);
+    }
+  }, { passive: true });
+
+  // Forward mobile finger touch/swipe while scrolling anywhere on the page
   window.addEventListener('touchmove', (e) => {
     if (!e.touches || !e.touches[0]) return;
     lastUserInteraction = performance.now();
@@ -1601,21 +1629,15 @@
     driveSplineAt(touch.clientX, touch.clientY);
   }, { passive: true });
 
-  window.addEventListener('pointermove', (e) => {
-    if (e.isTrusted) {
-      lastUserInteraction = performance.now();
-    }
-  }, { passive: true });
-
+  // Continuous ambient orbit when the user is idle at any scroll depth
   function startAmbientOrbit() {
     let angle = 0;
     function tick() {
       const now = performance.now();
-      if (now - lastUserInteraction > 140 && window.scrollY < window.innerHeight) {
+      if (now - lastUserInteraction > 140) {
         angle += 0.032;
-        const rect = canvas.getBoundingClientRect();
-        const cx = rect.left + rect.width * 0.62 + Math.cos(angle) * 48;
-        const cy = rect.top + rect.height * 0.58 + Math.sin(angle * 1.4) * 36;
+        const cx = window.innerWidth * 0.60 + Math.cos(angle) * 52;
+        const cy = window.innerHeight * 0.54 + Math.sin(angle * 1.4) * 38;
         driveSplineAt(cx, cy);
       }
       requestAnimationFrame(tick);
@@ -1645,6 +1667,7 @@
 
 <!-- 2. MAIN PORTFOLIO SCRIPTS -->
 <script>
+const GOOGLE_FORM_VIEW_URL = "https://docs.google.com/forms/d/1mzh6UV4CJjBls4SdTXH0o9MkIiDFdDzVvXuGZRS57Zs/viewform";
 const RESUME_FILE_PATH = "R_ManishKumar_Resume_26_10_26.pdf";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
@@ -1689,19 +1712,21 @@ Draggable.create(".argon-card", {
 
 /* ========== GSAP ScrollTrigger Entrance Animations ========== */
 function initScrollAnimations() {
-  // 0. Scroll-Linked Spline 3D Zoom, Tilt & Parallax Shift on Scroll
-  gsap.to("#splineStage", {
-    scale: 1.18,
-    yPercent: 18,
-    rotationZ: 6,
-    ease: "none",
-    scrollTrigger: {
-      trigger: "#home",
-      start: "top top",
-      end: "bottom top",
-      scrub: 0.5
+  // 0. Full-Page Fixed 3D Stage Dynamic Scale & Rotation Across Entire Scroll
+  gsap.fromTo("#splineStage",
+    { scale: 1, rotationZ: 0 },
+    {
+      scale: 1.14,
+      rotationZ: 12,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.6
+      }
     }
-  });
+  );
 
   // 1. Hero Entrance Stagger
   gsap.fromTo(".hero-anim",
@@ -1849,7 +1874,7 @@ setInterval(() => {
   document.getElementById('typedOutput').textContent = roles[roleIdx];
 }, 3200);
 
-/* ========== Resume & Contact Handlers ========== */
+/* ========== Resume & Google Form Handlers ========== */
 document.getElementById('downloadResume').addEventListener('click', () => {
   const a = document.createElement('a');
   a.href = RESUME_FILE_PATH;
@@ -1859,13 +1884,7 @@ document.getElementById('downloadResume').addEventListener('click', () => {
 
 document.getElementById('argonContactForm').addEventListener('submit', (e) => {
   e.preventDefault();
-  const statusEl = document.getElementById('formStatus');
-  statusEl.textContent = "Message prepared! Opening your mail client...";
-  const subject = encodeURIComponent(document.getElementById('subject').value || "Cloud & DevOps Role Inquiry");
-  const body = encodeURIComponent(
-    `Name: ${document.getElementById('name').value}\nEmail: ${document.getElementById('email').value}\n\n${document.getElementById('message').value}`
-  );
-  window.location.href = `mailto:mani.can1311@gmail.com?subject=${subject}&body=${body}`;
+  window.open(GOOGLE_FORM_VIEW_URL, '_blank', 'noopener,noreferrer');
 });
 </script>
 </body>
