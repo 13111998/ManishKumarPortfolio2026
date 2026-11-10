@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Manish Kumar R — Cloud & DevOps Engineer | Argon 4</title>
 
 <!-- Fonts + Icons -->
@@ -28,33 +28,9 @@
     --argon-glow: 0 22px 55px -10px rgba(0, 240, 255, 0.38);
   }
 
-  /* Disable mobile long-press save, text selection, and image dragging */
   * {
     box-sizing: border-box;
     scroll-behavior: smooth;
-    -webkit-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    -webkit-touch-callout: none !important;
-  }
-
-  input, textarea {
-    -webkit-user-select: text !important;
-    user-select: text !important;
-  }
-
-  img {
-    pointer-events: none !important;
-    -webkit-user-drag: none !important;
-  }
-
-  /* Force 100% Blank Black Screen on Mobile Share -> Print / Save as PDF */
-  @media print {
-    html, body {
-      background: #000000 !important;
-      display: none !important;
-    }
   }
 
   body {
@@ -64,31 +40,6 @@
     color: var(--text);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-  }
-
-  /* ── 100% FULL BLANK PITCH-BLACK SCREEN OVERLAY (ZERO TEXT, ZERO ICONS WHEN TRIGGERED) ── */
-  .blackout-curtain {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #000000 !important;
-    z-index: 2147483647;
-    display: none;
-    pointer-events: auto;
-  }
-
-  /* Instant zero-millisecond transition to pure black */
-  body.blackout-active .wrap,
-  body.blackout-active .quick-contact-dock,
-  body.blackout-active nav {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    display: none !important;
-  }
-
-  body.blackout-active .blackout-curtain {
-    display: block !important;
   }
 
   /* Pure Black Cyber Grid */
@@ -174,27 +125,6 @@
 
   .nav-btn.contact-pill a {
     color: var(--text);
-  }
-
-  .toggle {
-    cursor: pointer;
-    padding: 7px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--glass-border);
-    background: var(--glass);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text);
-    white-space: nowrap;
-  }
-
-  .toggle.privacy-active {
-    border-color: #00ff88;
-    color: #00ff88;
-    background: rgba(0, 255, 136, 0.1);
   }
 
   /* ── FLOATING QUICK-CONTACT DOCK (BOTTOM-RIGHT CORNER) ── */
@@ -506,7 +436,6 @@
     background: #050509;
     border: 1px solid rgba(255, 255, 255, 0.12);
     cursor: grab;
-    user-select: none;
     will-change: transform, box-shadow;
     box-shadow: 0 14px 35px rgba(0, 0, 0, 0.9);
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
@@ -1007,14 +936,11 @@
 </head>
 <body>
 
-<!-- 100% FULL BLANK PITCH-BLACK SCREEN OVERLAY (NO TEXT OR GRAPHICS SO SCREENSHOT IS COMPLETELY BLACK) -->
-<div class="blackout-curtain" id="blackoutCurtain"></div>
-
 <div class="wrap" id="wrap">
 
-  <!-- ARGON 4.17 FLOATING NAVBAR -->
+  <!-- ARGON 4 FLOATING NAVBAR -->
   <nav>
-    <div class="nav-brand">🔒 ARGON // 4.17</div>
+    <div class="nav-brand">⚡ ARGON // 4</div>
     <div class="nav-btn"><a href="#about">Summary & Skills</a></div>
     <div class="nav-btn"><a href="#stack">Stack</a></div>
     <div class="nav-btn"><a href="#experience">Experience</a></div>
@@ -1023,13 +949,12 @@
     <div class="nav-btn"><a href="#Design">Projects</a></div>
     <div class="nav-btn"><a href="#cert">Certifications</a></div>
     <div class="nav-btn contact-pill"><a href="#contact" id="navContactBtn"><i class="fas fa-paper-plane"></i> Contact</a></div>
-    <div class="toggle" id="privacyHoldToggle" title="When ON, screen turns 100% black unless finger/mouse is actively touching the page">🛡️ Hold-to-View: <span id="privacyHoldLabel">OFF</span></div>
   </nav>
 
-  <!-- FLOATING QUICK-CONTACT DOCK (PLAIN-TEXT BOT PROTECTED) -->
+  <!-- FLOATING QUICK-CONTACT DOCK -->
   <div class="quick-contact-dock" id="quickContactDock">
     <div class="dock-icons-wrap">
-      <a href="#" id="secureWhatsappBtn" class="dock-btn whatsapp" title="Chat on WhatsApp">
+      <a href="https://wa.me/918300660217?text=Hi%20Manish,%20I%20saw%20your%20DevOps%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener noreferrer" class="dock-btn whatsapp" title="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="dock-tooltip">WhatsApp</span>
       </a>
@@ -1037,7 +962,7 @@
         <i class="fab fa-linkedin-in"></i>
         <span class="dock-tooltip">LinkedIn</span>
       </a>
-      <a href="#" id="secureEmailBtn" class="dock-btn email" title="Send Email">
+      <a href="mailto:mani.can1311@gmail.com?subject=Cloud%20%26%20DevOps%20Role%20Inquiry" class="dock-btn email" title="Send Email">
         <i class="fas fa-envelope"></i>
         <span class="dock-tooltip">Email</span>
       </a>
@@ -1122,8 +1047,8 @@
           <div><strong>Company:</strong> Tata Consultancy Services (02/2022 – Present)</div>
           <div><strong>Location:</strong> Chennai, Tamil Nadu</div>
           <div><strong>Degree:</strong> B.E. (Mechanical Engineer)</div>
-          <div><strong>Phone:</strong> <span id="protectedPhoneAbout">Protected</span></div>
-          <div><strong>Email:</strong> <a href="#" id="protectedEmailAbout">Protected</a></div>
+          <div><strong>Phone:</strong> <span>+91-8300660217</span></div>
+          <div><strong>Email:</strong> <a href="mailto:mani.can1311@gmail.com?subject=Cloud%20%26%20DevOps%20Role%20Inquiry">mani.can1311@gmail.com</a></div>
           <div><strong>Languages:</strong> Tamil (Native), English (Native)</div>
         </div>
 
@@ -1458,8 +1383,8 @@
             Click below to open the official Google Form in a new tab, or send a quick message directly.
           </p>
           <div style="margin-top:22px; display:flex; flex-direction:column; gap:10px; font-size:14px;">
-            <div><i class="fas fa-envelope" style="color:var(--neon-1); width:22px;"></i> <a href="#" id="protectedEmailContact" style="color:var(--text); text-decoration:none;">Protected</a></div>
-            <div><i class="fas fa-phone" style="color:var(--neon-1); width:22px;"></i> <span id="protectedPhoneContact">Protected</span></div>
+            <div><i class="fas fa-envelope" style="color:var(--neon-1); width:22px;"></i> <a href="mailto:mani.can1311@gmail.com?subject=Cloud%20%26%20DevOps%20Role%20Inquiry" style="color:var(--text); text-decoration:none;">mani.can1311@gmail.com</a></div>
+            <div><i class="fas fa-phone" style="color:var(--neon-1); width:22px;"></i> <span>+91-8300660217</span></div>
             <div><i class="fas fa-map-marker-alt" style="color:var(--neon-1); width:22px;"></i> Chennai, Tamil Nadu</div>
           </div>
         </div>
@@ -1490,175 +1415,17 @@
   </section>
 
   <footer>
-    © 2026 Manish Kumar R — Engineered with <strong>Argon 4.17 3D (Mobile Blackout Shield)</strong>
+    © 2026 Manish Kumar R — Engineered with <strong>Argon 4 3D</strong>
   </footer>
 </div>
 
 <script>
-/* =========================================================================
-   ARGON 4.17 — PHONE & DESKTOP 100% BLANK BLACK SCREEN PRIVACY ENGINE
-   ========================================================================= */
-const ENCODED_WA_PHONE = 'OTE4MzAwNjYwMjE3';              // 918300660217
-const ENCODED_DISPLAY_PHONE = 'KzkxLTgzMDA2NjAyMTc=';     // +91-8300660217
-const ENCODED_EMAIL = 'bWFuaS5jYW4xMzExQGdtYWlsLmNvbQ=='; // mani.can1311@gmail.com
 const GOOGLE_FORM_VIEW_URL = "https://docs.google.com/forms/d/1mzh6UV4CJjBls4SdTXH0o9MkIiDFdDzVvXuGZRS57Zs/viewform";
 const RESUME_FILE_PATH = "R_ManishKumar_Resume_26_10_26.pdf";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
-const blackoutCurtain = document.getElementById('blackoutCurtain');
-let privacyHoldMode = false;
-
-function activateFullBlankScreen() {
-  document.body.classList.add('blackout-active');
-}
-
-function deactivateFullBlankScreen() {
-  document.body.classList.remove('blackout-active');
-}
-
-// 1. Optional "Hold-to-View" Dead-Man's Switch (Guarantees 100% black screen if user lifts thumb to press iPhone Power+Volume buttons)
-const privacyHoldToggle = document.getElementById('privacyHoldToggle');
-const privacyHoldLabel = document.getElementById('privacyHoldLabel');
-
-privacyHoldToggle.addEventListener('click', (e) => {
-  e.stopPropagation();
-  privacyHoldMode = !privacyHoldMode;
-  privacyHoldLabel.textContent = privacyHoldMode ? 'ON' : 'OFF';
-  privacyHoldToggle.classList.toggle('privacy-active', privacyHoldMode);
-  if (privacyHoldMode) {
-    activateFullBlankScreen();
-  } else {
-    deactivateFullBlankScreen();
-  }
-});
-
-// 2. Mobile Touch & Multi-Finger Gesture Screenshot Defense
-window.addEventListener('touchstart', (e) => {
-  // If 2 or more fingers touch the screen (3-finger screenshot gesture), immediately black out screen
-  if (e.touches && e.touches.length >= 2) {
-    activateFullBlankScreen();
-    return;
-  }
-  if (privacyHoldMode) {
-    deactivateFullBlankScreen();
-  }
-}, { passive: true });
-
-window.addEventListener('touchend', (e) => {
-  if (privacyHoldMode && (!e.touches || e.touches.length === 0)) {
-    activateFullBlankScreen();
-  }
-}, { passive: true });
-
-window.addEventListener('touchcancel', () => {
-  activateFullBlankScreen();
-}, { passive: true });
-
-// 3. iOS Control Center / Notification Shade / App Switcher / AssistiveTouch -> Instant Full Blank Black Screen
-window.addEventListener('blur', activateFullBlankScreen);
-window.addEventListener('pagehide', activateFullBlankScreen);
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    activateFullBlankScreen();
-  }
-});
-
-// Tap black screen once with 1 finger to restore view (when not in Hold-to-View mode)
-blackoutCurtain.addEventListener('click', () => {
-  if (!privacyHoldMode) deactivateFullBlankScreen();
-});
-window.addEventListener('focus', () => {
-  if (!privacyHoldMode) deactivateFullBlankScreen();
-});
-
-// 4. Desktop PrintScreen & Shortcut Blackout
-window.addEventListener('keyup', (e) => {
-  if (e.key === 'PrintScreen' || e.keyCode === 44) {
-    activateFullBlankScreen();
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText('').catch(() => {});
-    }
-  }
-});
-
-window.addEventListener('keydown', (e) => {
-  if (
-    e.key === 'PrintScreen' ||
-    e.key === 'F12' ||
-    (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c', 'S', 's'].includes(e.key)) ||
-    (e.metaKey && e.shiftKey && ['3', '4', '5', 's', 'S'].includes(e.key)) ||
-    ((e.ctrlKey || e.metaKey) && ['u', 'U', 's', 'S', 'p', 'P'].includes(e.key))
-  ) {
-    e.preventDefault();
-    activateFullBlankScreen();
-    return false;
-  }
-});
-
-document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-/* ========== Decode Contact Info & Send Visitor Email Alert ========== */
-async function sendVisitorEmailAlert(eventType = "Portfolio Page Viewed") {
-  if (eventType === "Portfolio Page Viewed" && sessionStorage.getItem('argon_visitor_alerted')) return;
-  try {
-    let geoData = {};
-    try {
-      const res = await fetch('https://ipapi.co/json/');
-      if (res.ok) geoData = await res.json();
-    } catch (err) {}
-
-    const ownerEmail = atob(ENCODED_EMAIL);
-    await fetch(`https://formsubmit.co/ajax/${ownerEmail}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({
-        _subject: `🔔 Portfolio Alert: ${eventType} (${geoData.city || 'Visitor'})`,
-        _template: "table",
-        _captcha: "false",
-        Event: eventType,
-        Visitor_IP: geoData.ip || "Hidden",
-        Location: `${geoData.city || ''}, ${geoData.region || ''}, ${geoData.country_name || ''}`,
-        Device: navigator.userAgent,
-        Time_IST: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
-      })
-    });
-    if (eventType === "Portfolio Page Viewed") sessionStorage.setItem('argon_visitor_alerted', 'true');
-  } catch (e) {}
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  const decodedDisplayPhone = atob(ENCODED_DISPLAY_PHONE);
-  const decodedEmail = atob(ENCODED_EMAIL);
-
-  document.getElementById('protectedPhoneAbout').textContent = decodedDisplayPhone;
-  document.getElementById('protectedPhoneContact').textContent = decodedDisplayPhone;
-
-  [document.getElementById('protectedEmailAbout'), document.getElementById('protectedEmailContact')].forEach(el => {
-    if (!el) return;
-    el.textContent = decodedEmail;
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.location.href = `mailto:${decodedEmail}?subject=Cloud%20%26%20DevOps%20Role%20Inquiry`;
-    });
-  });
-
-  sendVisitorEmailAlert("Portfolio Page Viewed");
-});
-
-/* ========== Bot-Protected WhatsApp & Email Dock ========== */
-document.getElementById('secureWhatsappBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  const rawPhone = atob(ENCODED_WA_PHONE);
-  const msg = encodeURIComponent("Hi Manish, I saw your DevOps portfolio and would like to connect!");
-  window.open(`https://wa.me/${rawPhone}?text=${msg}`, '_blank', 'noopener,noreferrer');
-});
-
-document.getElementById('secureEmailBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  window.location.href = `mailto:${atob(ENCODED_EMAIL)}?subject=Cloud%20%26%20DevOps%20Role%20Inquiry`;
-});
-
+/* ========== Floating Quick-Contact Dock Toggle ========== */
 document.getElementById('dockToggleBtn').addEventListener('click', () => {
   document.getElementById('quickContactDock').classList.toggle('open');
 });
@@ -1709,7 +1476,6 @@ setInterval(() => {
 
 /* ========== Resume & Google Form Handlers ========== */
 document.getElementById('downloadResume').addEventListener('click', () => {
-  sendVisitorEmailAlert("Downloaded Resume PDF");
   const a = document.createElement('a');
   a.href = RESUME_FILE_PATH;
   a.download = "R_ManishKumar_Resume_26_10_26.pdf";
