@@ -22,6 +22,7 @@
     --glass-border: rgba(255, 255, 255, 0.12);
     --neon-1: #00f0ff;
     --neon-2: #ff00e5;
+    --credly-orange: #ff6b00;
     --text: #f2f6ff;
     --muted: rgba(242, 246, 255, 0.68);
     --accent: linear-gradient(135deg, var(--neon-1), var(--neon-2));
@@ -80,6 +81,10 @@
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
     max-width: 96vw;
     overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar {
+    display: none;
   }
 
   .nav-brand {
@@ -173,8 +178,13 @@
     position: relative;
   }
 
+  .dock-btn:hover {
+    transform: scale(1.1);
+  }
+
   .dock-btn.whatsapp { color: #25d366; border-color: rgba(37, 211, 102, 0.4); }
   .dock-btn.linkedin { color: #0077b5; border-color: rgba(0, 119, 181, 0.4); }
+  .dock-btn.credly { color: var(--credly-orange); border-color: rgba(255, 107, 0, 0.5); }
   .dock-btn.email { color: var(--neon-1); border-color: rgba(0, 240, 255, 0.4); }
 
   .dock-toggle-main {
@@ -250,7 +260,7 @@
     background: var(--accent);
   }
 
-  /* ── HERO SECTION ── */
+  /* ── HERO SECTION (DIRECT SPLINE IFRAME + MOBILE TOUCH CONTROLS) ── */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -259,25 +269,74 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: 110px 6% 60px;
+    padding: 110px 6% 80px;
     background: #000000;
   }
 
-  iframe.spline {
+  .hero iframe.spline-bg {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     border: 0;
     z-index: 1;
-    opacity: 0.72;
+    opacity: 1 !important;
+    display: block;
+    pointer-events: auto;
+    filter: url(#permanentCreviceGlowFilter) brightness(1.38) contrast(1.35) saturate(2.35);
+  }
+
+  /* Mobile 3D Touch Toggle Button */
+  .spline-touch-toggle {
+    display: none;
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    color: var(--neon-1);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 25px rgba(0, 240, 255, 0.25);
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+  }
+
+  .spline-touch-toggle.active {
+    background: var(--accent);
+    color: #000000;
+    border-color: transparent;
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.65);
+  }
+
+  /* On touch/mobile devices: default to smooth vertical scroll, unlock 3D touch when toggled */
+  @media (hover: none) and (pointer: coarse), (max-width: 920px) {
+    .hero iframe.spline-bg {
+      pointer-events: none;
+    }
+    .hero iframe.spline-bg.touch-active {
+      pointer-events: auto;
+    }
+    .spline-touch-toggle {
+      display: inline-flex;
+    }
   }
 
   .orb {
     position: absolute;
     border-radius: 50%;
     filter: blur(70px);
-    opacity: 0.32;
+    opacity: 0.35;
     z-index: 2;
     pointer-events: none;
   }
@@ -298,6 +357,12 @@
 
   .hero-left {
     max-width: 780px;
+    pointer-events: none;
+  }
+
+  .hero-left .cta-row,
+  .hero-left .btn,
+  .hero-left .argon-badge {
     pointer-events: auto;
   }
 
@@ -395,6 +460,17 @@
     backdrop-filter: blur(10px);
   }
 
+  .btn-credly {
+    background: rgba(255, 107, 0, 0.12);
+    border: 1px solid rgba(255, 107, 0, 0.5);
+    color: var(--credly-orange);
+    backdrop-filter: blur(10px);
+  }
+  .btn-credly:hover {
+    box-shadow: 0 10px 28px rgba(255, 107, 0, 0.32);
+    transform: translateY(-2px);
+  }
+
   /* ── SECTIONS & HEADINGS ── */
   section {
     padding: 88px 6%;
@@ -404,6 +480,7 @@
   .section-title {
     max-width: 1280px;
     margin: 0 auto 36px;
+    will-change: transform, opacity;
   }
 
   .section-title .eyebrow {
@@ -436,7 +513,8 @@
     background: #050509;
     border: 1px solid rgba(255, 255, 255, 0.12);
     cursor: grab;
-    will-change: transform, box-shadow;
+    touch-action: pan-y;
+    will-change: transform, opacity, box-shadow;
     box-shadow: 0 14px 35px rgba(0, 0, 0, 0.9);
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
@@ -543,6 +621,24 @@
     color: var(--text);
     text-decoration: none;
     font-size: 17px;
+    transition: all 0.25s ease;
+  }
+
+  .social-row a:hover {
+    border-color: var(--neon-1);
+    color: var(--neon-1);
+    transform: translateY(-2px);
+  }
+
+  .social-row a.credly-social {
+    color: var(--credly-orange);
+    border-color: rgba(255, 107, 0, 0.45);
+  }
+
+  .social-row a.credly-social:hover {
+    background: rgba(255, 107, 0, 0.14);
+    border-color: var(--credly-orange);
+    box-shadow: 0 0 18px rgba(255, 107, 0, 0.4);
   }
 
   .about-info {
@@ -594,6 +690,7 @@
     color: var(--text);
     font-weight: 600;
     font-size: 13px;
+    will-change: transform, opacity;
   }
 
   /* ── DEVOPS STACK ── */
@@ -693,6 +790,7 @@
     width: 2px;
     background: linear-gradient(180deg, var(--neon-1), var(--neon-2), var(--neon-1));
     box-shadow: 0 0 15px var(--neon-1);
+    transform-origin: top center;
   }
 
   .step-item {
@@ -717,6 +815,7 @@
     font-weight: 800;
     color: var(--neon-1);
     z-index: 2;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
   }
 
   .step-transparent-card {
@@ -836,6 +935,20 @@
   }
 
   /* ── CERTIFICATIONS ── */
+  .certs-header-row {
+    max-width: 1280px;
+    margin: 0 auto 36px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .certs-header-row .section-title {
+    margin: 0;
+  }
+
   .certs-full-grid {
     max-width: 1280px;
     margin: 0 auto;
@@ -845,12 +958,14 @@
   }
 
   .showcase-card {
-    height: 325px;
+    height: 335px;
     border-radius: 20px;
     padding: 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-decoration: none;
+    cursor: pointer;
   }
 
   .showcase-img-wrap {
@@ -883,6 +998,17 @@
     font-size: 12px;
     color: var(--neon-1);
     font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .credly-verify-tag {
+    color: var(--credly-orange);
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
   }
 
   /* ── CONTACT + GOOGLE FORM INTEGRATION ── */
@@ -936,6 +1062,19 @@
 </head>
 <body>
 
+<!-- Selective SVG LUT Filter -->
+<svg width="0" height="0" style="position:absolute; pointer-events:none;">
+  <defs>
+    <filter id="permanentCreviceGlowFilter" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0 0.16 0.48 0.78 1" />
+        <feFuncG type="table" tableValues="0 0.05 0.18 0.45 1" />
+        <feFuncB type="table" tableValues="0 0.38 0.88 1.00 1" />
+      </feComponentTransfer>
+    </filter>
+  </defs>
+</svg>
+
 <div class="wrap" id="wrap">
 
   <!-- ARGON 4 FLOATING NAVBAR -->
@@ -951,9 +1090,13 @@
     <div class="nav-btn contact-pill"><a href="#contact" id="navContactBtn"><i class="fas fa-paper-plane"></i> Contact</a></div>
   </nav>
 
-  <!-- FLOATING QUICK-CONTACT DOCK -->
+  <!-- FLOATING QUICK-CONTACT DOCK (WITH CREDLY ICON) -->
   <div class="quick-contact-dock" id="quickContactDock">
     <div class="dock-icons-wrap">
+      <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" class="dock-btn credly" title="Verified Credly Badges">
+        <i class="fas fa-award"></i>
+        <span class="dock-tooltip">Credly Badges</span>
+      </a>
       <a href="https://wa.me/918300660217?text=Hi%20Manish,%20I%20saw%20your%20DevOps%20portfolio%20and%20would%20like%20to%20connect!" target="_blank" rel="noopener noreferrer" class="dock-btn whatsapp" title="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="dock-tooltip">WhatsApp</span>
@@ -978,28 +1121,30 @@
     <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
   </div>
 
-  <!-- HERO -->
+  <!-- HERO WITH EMBEDDED SPLINE IFRAME + MOBILE TOUCH TOGGLE -->
   <header class="hero" id="home">
-    <iframe class="spline" src="https://my.spline.design/orb-WJJLRQLUDMdwoXsST4jT67gj/" allow="fullscreen"></iframe>
+    <iframe class="spline-bg" id="splineIframe" src='https://my.spline.design/orb-WJJLRQLUDMdwoXsST4jT67gj/' frameborder='0' width='100%' height='100%' allow="fullscreen"></iframe>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
 
+    <!-- Mobile 3D Touch Toggle Pill -->
+    <button type="button" class="spline-touch-toggle" id="splineTouchToggle">
+      <i class="fas fa-hand-pointer"></i> <span>Enable 3D Touch</span>
+    </button>
+
     <div class="hero-content">
       <div class="hero-left">
-        <div class="argon-badge">
+        <div class="argon-badge hero-anim">
           <span class="pulse-dot"></span> CLOUD & DEVOPS ENGINEER · CHENNAI
         </div>
-        <div class="intro">Hi, I'm <span>Manish Kumar R</span></div>
-        <div class="typed-wrap" id="typedOutput">AWS Cloud • Kubernetes (EKS) • Terraform • Jenkins CI/CD • Argo CD</div>
-        <div class="subtitle">
+        <div class="intro hero-anim">Hi, I'm <span>Manish Kumar R</span></div>
+        <div class="typed-wrap hero-anim" id="typedOutput">AWS Certified Solutions Architect - Associate</div>
+        <div class="subtitle hero-anim">
           Cloud & DevOps Engineer with 4+ years of experience in AWS Cloud, DevOps, and infrastructure management. Skilled in designing, automating, and maintaining scalable and secure cloud environments on AWS.
         </div>
-        <div class="cta-row">
+        <div class="cta-row hero-anim">
           <button class="btn btn-primary" id="downloadResume">
             <i class="fas fa-download"></i> Download Resume
-          </button>
-          <button class="btn btn-ghost" id="heroGoogleFormBtn">
-            <i class="fab fa-wpforms"></i> Open Google Form
           </button>
           <button class="btn btn-ghost" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">
             <i class="fas fa-envelope"></i> Contact Me
@@ -1028,10 +1173,11 @@
         </div>
 
         <div class="social-row">
-          <a href="https://www.linkedin.com/in/manish-kumar-r-a834261b6/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://www.behance.net/manishkumar324" target="_blank" rel="noopener noreferrer"><i class="fab fa-behance"></i></a>
-          <a href="https://github.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-          <a href="https://drive.google.com/drive/folders/1S6Y3Jna8-oWzcncy6T9Pl92ReXuF9Bzz" target="_blank" rel="noopener noreferrer"><i class="fab fa-google-drive"></i></a>
+          <a href="https://www.linkedin.com/in/manish-kumar-r-a834261b6/" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" class="credly-social" title="Verified Credly Account"><i class="fas fa-award"></i></a>
+          <a href="https://www.behance.net/manishkumar324" target="_blank" rel="noopener noreferrer" title="Behance"><i class="fab fa-behance"></i></a>
+          <a href="https://github.com/" target="_blank" rel="noopener noreferrer" title="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://drive.google.com/drive/folders/1S6Y3Jna8-oWzcncy6T9Pl92ReXuF9Bzz" target="_blank" rel="noopener noreferrer" title="Google Drive"><i class="fab fa-google-drive"></i></a>
         </div>
       </div>
 
@@ -1049,7 +1195,7 @@
           <div><strong>Degree:</strong> B.E. (Mechanical Engineer)</div>
           <div><strong>Phone:</strong> <span>+91-8300660217</span></div>
           <div><strong>Email:</strong> <a href="mailto:mani.can1311@gmail.com?subject=Cloud%20%26%20DevOps%20Role%20Inquiry">mani.can1311@gmail.com</a></div>
-          <div><strong>Languages:</strong> Tamil (Native), English (Native)</div>
+          <div><strong>Credly:</strong> <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" style="color:var(--credly-orange);">Verified Badges ↗</a></div>
         </div>
 
         <div class="skills">
@@ -1319,51 +1465,68 @@
 
   <!-- CERTIFICATIONS -->
   <section id="cert">
-    <div class="section-title">
-      <div class="eyebrow">07 // Verified Credentials</div>
-      <h2>Certifications</h2>
+    <div class="certs-header-row">
+      <div class="section-title">
+        <div class="eyebrow">07 // Verified Credentials</div>
+        <h2>Certifications</h2>
+      </div>
+      <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" class="btn btn-credly">
+        <i class="fas fa-award"></i> Verify All Badges on Credly
+      </a>
     </div>
 
     <div class="certs-full-grid">
-      <div class="showcase-card argon-card">
+      <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" class="showcase-card argon-card">
         <div class="showcase-img-wrap cert-photo-wrap">
           <img src="image/aws-certified-solutions-architect-associate.png" alt="AWS SAA" onerror="this.src='https://images.credly.com/size/680x680/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png'">
         </div>
         <div class="card-meta">
           <div class="card-title">AWS Certified Solutions Architect - Associate</div>
-          <div class="card-sub">Amazon Web Services (AWS)</div>
+          <div class="card-sub">
+            <span>Amazon Web Services (AWS)</span>
+            <span class="credly-verify-tag"><i class="fas fa-award"></i> Credly ↗</span>
+          </div>
         </div>
-      </div>
+      </a>
 
-      <div class="showcase-card argon-card">
+      <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" class="showcase-card argon-card">
         <div class="showcase-img-wrap cert-photo-wrap">
           <img src="image/aws-certified-cloudops-engineer-associate.png" alt="AWS CloudOps" onerror="this.src='https://images.credly.com/size/680x680/images/f0d3540d-5965-4f59-8160-b2a1041b4546/image.png'">
         </div>
         <div class="card-meta">
           <div class="card-title">AWS Certified CloudOps Engineer - Associate</div>
-          <div class="card-sub">Amazon Web Services (AWS)</div>
+          <div class="card-sub">
+            <span>Amazon Web Services (AWS)</span>
+            <span class="credly-verify-tag"><i class="fas fa-award"></i> Credly ↗</span>
+          </div>
         </div>
-      </div>
+      </a>
 
-      <div class="showcase-card argon-card">
+      <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" class="showcase-card argon-card">
         <div class="showcase-img-wrap cert-photo-wrap">
           <img src="image/aws-certified-cloud-practitioner.png" alt="AWS Practitioner" onerror="this.src='https://images.credly.com/size/680x680/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png'">
         </div>
         <div class="card-meta">
           <div class="card-title">AWS Certified Cloud Practitioner</div>
-          <div class="card-sub">Amazon Web Services (AWS)</div>
+          <div class="card-sub">
+            <span>Amazon Web Services (AWS)</span>
+            <span class="credly-verify-tag"><i class="fas fa-award"></i> Credly ↗</span>
+          </div>
         </div>
-      </div>
+      </a>
 
-      <div class="showcase-card argon-card">
+      <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" class="showcase-card argon-card">
         <div class="showcase-img-wrap cert-photo-wrap">
           <img src="image/associate-cloud-engineer-certification.png" alt="Google ACE" onerror="this.src='https://images.credly.com/size/680x680/images/08096465-cbfc-4c3e-93e5-93c5aa61f23e/image.png'">
         </div>
         <div class="card-meta">
           <div class="card-title">Google Associate Cloud Engineer</div>
-          <div class="card-sub">Google Cloud Certified</div>
+          <div class="card-sub">
+            <span>Google Cloud Certified</span>
+            <span class="credly-verify-tag"><i class="fas fa-award"></i> Credly ↗</span>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
   </section>
 
@@ -1385,6 +1548,7 @@
           <div style="margin-top:22px; display:flex; flex-direction:column; gap:10px; font-size:14px;">
             <div><i class="fas fa-envelope" style="color:var(--neon-1); width:22px;"></i> <a href="mailto:mani.can1311@gmail.com?subject=Cloud%20%26%20DevOps%20Role%20Inquiry" style="color:var(--text); text-decoration:none;">mani.can1311@gmail.com</a></div>
             <div><i class="fas fa-phone" style="color:var(--neon-1); width:22px;"></i> <span>+91-8300660217</span></div>
+            <div><i class="fas fa-award" style="color:var(--credly-orange); width:22px;"></i> <a href="https://www.credly.com/users/manish-kumar-r.00d2f56d" target="_blank" rel="noopener noreferrer" style="color:var(--credly-orange); text-decoration:none;">credly.com/users/manish-kumar-r</a></div>
             <div><i class="fas fa-map-marker-alt" style="color:var(--neon-1); width:22px;"></i> Chennai, Tamil Nadu</div>
           </div>
         </div>
@@ -1419,22 +1583,55 @@
   </footer>
 </div>
 
+<!-- MAIN PORTFOLIO SCRIPTS -->
 <script>
 const GOOGLE_FORM_VIEW_URL = "https://docs.google.com/forms/d/1mzh6UV4CJjBls4SdTXH0o9MkIiDFdDzVvXuGZRS57Zs/viewform";
 const RESUME_FILE_PATH = "R_ManishKumar_Resume_26_10_26.pdf";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
+/* ========== Mobile Spline Touch Toggle & Auto Scroll Lock ========== */
+const splineIframe = document.getElementById('splineIframe');
+const splineTouchToggle = document.getElementById('splineTouchToggle');
+
+if (splineTouchToggle && splineIframe) {
+  splineTouchToggle.addEventListener('click', () => {
+    const isTouchEnabled = splineIframe.classList.toggle('touch-active');
+    splineTouchToggle.classList.toggle('active', isTouchEnabled);
+    splineTouchToggle.innerHTML = isTouchEnabled
+      ? '<i class="fas fa-arrows-alt-v"></i> <span>Lock 3D (Scroll Page)</span>'
+      : '<i class="fas fa-hand-pointer"></i> <span>Enable 3D Touch</span>';
+  });
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.7 && splineIframe.classList.contains('touch-active')) {
+      splineIframe.classList.remove('touch-active');
+      splineTouchToggle.classList.remove('active');
+      splineTouchToggle.innerHTML = '<i class="fas fa-hand-pointer"></i> <span>Enable 3D Touch</span>';
+    }
+  }, { passive: true });
+}
+
 /* ========== Floating Quick-Contact Dock Toggle ========== */
 document.getElementById('dockToggleBtn').addEventListener('click', () => {
   document.getElementById('quickContactDock').classList.toggle('open');
 });
 
-/* ========== 3D Hover & Drag Engine ========== */
+/* ========== Dynamic Cursor Glow Tracking on Cards ========== */
+document.querySelectorAll('.argon-card').forEach(card => {
+  card.addEventListener('pointermove', (e) => {
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  });
+});
+
+/* ========== 3D Hover & Drag Engine (With Mobile Scroll Support) ========== */
 Draggable.create(".argon-card", {
   type: "x,y",
   edgeResistance: 0.65,
   dragClickables: true,
+  allowNativeTouchScrolling: true,
   onPress() {
     this.lastX = this.x;
     this.lastY = this.y;
@@ -1453,12 +1650,139 @@ Draggable.create(".argon-card", {
   }
 });
 
+/* ========== GSAP ScrollTrigger Entrance Animations ========== */
+function initScrollAnimations() {
+  // 1. Hero Entrance Stagger
+  gsap.fromTo(".hero-anim",
+    { y: 36, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.85,
+      stagger: 0.12,
+      ease: "power3.out",
+      clearProps: "transform"
+    }
+  );
+
+  // 2. Section Titles & Certs Header Button Fade-Up
+  gsap.utils.toArray(".section-title, .certs-header-row .btn-credly").forEach((el) => {
+    gsap.fromTo(el,
+      { y: 35, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.75,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 88%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+  });
+
+  // 3. Batch Staggered Reveal for All Argon Cards
+  gsap.set(".argon-card", { y: 45, opacity: 0 });
+  ScrollTrigger.batch(".argon-card", {
+    start: "top 88%",
+    onEnter: (batch) => {
+      gsap.to(batch, {
+        opacity: 1,
+        y: 0,
+        duration: 0.75,
+        stagger: 0.1,
+        ease: "power3.out",
+        overwrite: "auto"
+      });
+    },
+    onLeaveBack: (batch) => {
+      gsap.to(batch, {
+        opacity: 0,
+        y: 45,
+        duration: 0.4,
+        overwrite: "auto"
+      });
+    }
+  });
+
+  // 4. Skill Pills Pop-In Stagger
+  gsap.fromTo(".skill-pill",
+    { scale: 0.85, opacity: 0, y: 14 },
+    {
+      scale: 1,
+      opacity: 1,
+      y: 0,
+      duration: 0.45,
+      stagger: 0.025,
+      ease: "back.out(1.5)",
+      scrollTrigger: {
+        trigger: ".skills",
+        start: "top 88%",
+        toggleActions: "play none none reverse"
+      }
+    }
+  );
+
+  // 5. Experience Timeline Step Dots Pop-In
+  gsap.utils.toArray(".step-badge-dot").forEach((dot) => {
+    gsap.fromTo(dot,
+      { scale: 0, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.5,
+        ease: "back.out(2)",
+        scrollTrigger: {
+          trigger: dot,
+          start: "top 88%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+  });
+
+  // 6. Active Navbar Pill Highlight on Scroll
+  const sections = document.querySelectorAll("section[id]");
+  const navBtns = document.querySelectorAll("nav .nav-btn");
+
+  sections.forEach((sec) => {
+    ScrollTrigger.create({
+      trigger: sec,
+      start: "top 45%",
+      end: "bottom 45%",
+      onToggle: (self) => {
+        if (self.isActive) {
+          const id = sec.getAttribute("id");
+          navBtns.forEach((btn) => {
+            const link = btn.querySelector("a");
+            if (link && link.getAttribute("href") === `#${id}`) {
+              btn.classList.add("active");
+            } else {
+              btn.classList.remove("active");
+            }
+          });
+        }
+      }
+    });
+  });
+}
+
 /* ========== Preloader & Role Rotator ========== */
 gsap.to('#progressBar', {
   width: "100%",
   duration: 0.9,
   onComplete: () => {
-    gsap.to('#preloader', { opacity: 0, duration: 0.4, onComplete: () => document.getElementById('preloader').style.display = 'none' });
+    gsap.to('#preloader', {
+      opacity: 0,
+      duration: 0.4,
+      onComplete: () => {
+        document.getElementById('preloader').style.display = 'none';
+        initScrollAnimations();
+        ScrollTrigger.refresh();
+      }
+    });
   }
 });
 
@@ -1480,10 +1804,6 @@ document.getElementById('downloadResume').addEventListener('click', () => {
   a.href = RESUME_FILE_PATH;
   a.download = "R_ManishKumar_Resume_26_10_26.pdf";
   a.click();
-});
-
-document.getElementById('heroGoogleFormBtn').addEventListener('click', () => {
-  window.open(GOOGLE_FORM_VIEW_URL, '_blank', 'noopener,noreferrer');
 });
 
 document.getElementById('argonContactForm').addEventListener('submit', (e) => {
