@@ -17,14 +17,14 @@
 <style>
   :root {
     --bg: #000000;
-    --card-bg: rgba(5, 5, 12, 0.72);
+    --card-bg: #050509;
     --glass: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.14);
+    --glass-border: rgba(255, 255, 255, 0.12);
     --neon-1: #00f0ff;
     --neon-2: #ff00e5;
     --credly-orange: #ff6b00;
     --text: #f2f6ff;
-    --muted: rgba(242, 246, 255, 0.74);
+    --muted: rgba(242, 246, 255, 0.68);
     --accent: linear-gradient(135deg, var(--neon-1), var(--neon-2));
     --argon-glow: 0 22px 55px -10px rgba(0, 240, 255, 0.38);
   }
@@ -43,84 +43,23 @@
     overflow-x: hidden;
   }
 
-  /* ── GLOBAL FIXED SPLINE 3D BACKGROUND (VISIBLE ACROSS ALL SECTIONS) ── */
-  .spline-stage {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: auto;
-    will-change: transform;
-    touch-action: pan-y;
-    overflow: hidden;
-  }
-
-  #splineCanvas,
-  iframe.spline-bg {
-    position: absolute;
-    inset: 0;
-    width: 100% !important;
-    height: 100% !important;
-    border: 0;
-    z-index: 1;
-    opacity: 1 !important;
-    display: block;
-    touch-action: pan-y !important;
-    filter: url(#permanentCreviceGlowFilter) brightness(1.38) contrast(1.35) saturate(2.35);
-  }
-
-  @media (hover: none) and (pointer: coarse), (max-width: 920px) {
-    .spline-stage,
-    iframe.spline-bg {
-      pointer-events: none;
-    }
-  }
-
-  /* Ambient Neon Orbs (Fixed with 3D Stage) */
-  .orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.28;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .orb.orb-1 { width: 450px; height: 450px; left: -120px; top: -60px; background: radial-gradient(circle, var(--neon-1), transparent 60%); }
-  .orb.orb-2 { width: 420px; height: 420px; right: -80px; bottom: -100px; background: radial-gradient(circle, var(--neon-2), transparent 60%); }
-
-  /* Subtle Cyber Grid Overlay Above 3D Stage */
+  /* Pure Black Cyber Grid */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     background-image: 
-      linear-gradient(rgba(0, 240, 255, 0.022) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 240, 255, 0.022) 1px, transparent 1px);
+      linear-gradient(rgba(0, 240, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.025) 1px, transparent 1px);
     background-size: 48px 48px;
     pointer-events: none;
-    z-index: 1;
+    z-index: 0;
   }
 
   .wrap {
     position: relative;
     min-height: 100vh;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  /* Allow interactive elements inside .wrap to receive clicks/drags while letting empty background pass mouse hover to Spline */
-  nav,
-  .quick-contact-dock,
-  .argon-card,
-  .btn,
-  .argon-badge,
-  a,
-  button,
-  input,
-  textarea,
-  .section-title {
-    pointer-events: auto;
+    z-index: 1;
   }
 
   /* ── NAVIGATION (PURE BLACK FLOATING DOCK) ── */
@@ -134,7 +73,7 @@
     gap: 6px;
     align-items: center;
     padding: 8px 14px;
-    background: rgba(0, 0, 0, 0.82);
+    background: rgba(0, 0, 0, 0.88);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
@@ -225,8 +164,7 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: rgba(8, 8, 18, 0.88);
-    backdrop-filter: blur(12px);
+    background: #080812;
     border: 1px solid rgba(0, 240, 255, 0.35);
     color: var(--text);
     display: flex;
@@ -322,7 +260,7 @@
     background: var(--accent);
   }
 
-  /* ── HERO SECTION (TRANSPARENT OVER FIXED 3D STAGE) ── */
+  /* ── HERO SECTION (DIRECT SPLINE IFRAME + MOBILE TOUCH CONTROLS) ── */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -332,8 +270,78 @@
     justify-content: center;
     overflow: hidden;
     padding: 110px 6% 80px;
-    background: transparent;
+    background: #000000;
   }
+
+  .hero iframe.spline-bg {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0;
+    z-index: 1;
+    opacity: 1 !important;
+    display: block;
+    pointer-events: auto;
+    filter: url(#permanentCreviceGlowFilter) brightness(1.38) contrast(1.35) saturate(2.35);
+  }
+
+  /* Mobile 3D Touch Toggle Button */
+  .spline-touch-toggle {
+    display: none;
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    color: var(--neon-1);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 25px rgba(0, 240, 255, 0.25);
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+  }
+
+  .spline-touch-toggle.active {
+    background: var(--accent);
+    color: #000000;
+    border-color: transparent;
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.65);
+  }
+
+  /* On touch/mobile devices: default to smooth vertical scroll, unlock 3D touch when toggled */
+  @media (hover: none) and (pointer: coarse), (max-width: 920px) {
+    .hero iframe.spline-bg {
+      pointer-events: none;
+    }
+    .hero iframe.spline-bg.touch-active {
+      pointer-events: auto;
+    }
+    .spline-touch-toggle {
+      display: inline-flex;
+    }
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.35;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .orb.orb-1 { width: 450px; height: 450px; left: -120px; top: -60px; background: radial-gradient(circle, var(--neon-1), transparent 60%); }
+  .orb.orb-2 { width: 420px; height: 420px; right: -80px; bottom: -100px; background: radial-gradient(circle, var(--neon-2), transparent 60%); }
 
   .hero-content {
     position: relative;
@@ -350,6 +358,12 @@
   .hero-left {
     max-width: 780px;
     pointer-events: none;
+  }
+
+  .hero-left .cta-row,
+  .hero-left .btn,
+  .hero-left .argon-badge {
+    pointer-events: auto;
   }
 
   .argon-badge {
@@ -388,7 +402,6 @@
     line-height: 1.05;
     margin-bottom: 14px;
     letter-spacing: -1px;
-    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
   }
 
   .intro span {
@@ -404,7 +417,6 @@
     font-weight: 600;
     margin-bottom: 14px;
     min-height: 28px;
-    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
   }
 
   .subtitle {
@@ -413,7 +425,6 @@
     line-height: 1.65;
     max-width: 680px;
     margin-bottom: 28px;
-    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
   }
 
   .cta-row {
@@ -443,35 +454,32 @@
   }
 
   .btn-ghost {
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--glass-border);
     color: var(--text);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
   }
 
   .btn-credly {
-    background: rgba(255, 107, 0, 0.14);
+    background: rgba(255, 107, 0, 0.12);
     border: 1px solid rgba(255, 107, 0, 0.5);
     color: var(--credly-orange);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
   }
   .btn-credly:hover {
     box-shadow: 0 10px 28px rgba(255, 107, 0, 0.32);
     transform: translateY(-2px);
   }
 
-  /* ── SECTIONS & HEADINGS (TRANSPARENT FOR FIXED 3D VISIBILITY) ── */
+  /* ── SECTIONS & HEADINGS ── */
   section {
     padding: 88px 6%;
     position: relative;
-    background: transparent;
   }
 
   .section-title {
     max-width: 1280px;
     margin: 0 auto 36px;
-    will-change: transform, opacity;
-    text-shadow: 0 6px 24px rgba(0, 0, 0, 0.9);
   }
 
   .section-title .eyebrow {
@@ -497,18 +505,16 @@
     margin: 0;
   }
 
-  /* ── TRANSLUCENT GLASS 3D PERSPECTIVE DRAG CARD ENGINE ── */
+  /* ── PURE BLACK 3D PERSPECTIVE DRAG CARD ENGINE ── */
   .argon-card {
     position: relative;
     overflow: hidden;
-    background: var(--card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
+    background: #050509;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     cursor: grab;
     touch-action: pan-y;
-    will-change: transform, opacity, box-shadow;
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.78);
+    will-change: transform, box-shadow;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.9);
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
@@ -532,7 +538,7 @@
   .argon-card.is-dragging {
     border-color: var(--neon-1);
     box-shadow:
-      0 35px 70px rgba(0, 0, 0, 0.9),
+      0 35px 70px rgba(0, 0, 0, 0.95),
       0 0 38px rgba(0, 240, 255, 0.35),
       inset 0 0 18px rgba(0, 240, 255, 0.12);
   }
@@ -561,6 +567,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    background: #040408;
+    border: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .profile-img-box {
@@ -569,7 +577,7 @@
     margin: 0 auto;
     border-radius: 16px;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.75) !important;
+    background: #000000 !important;
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -583,6 +591,7 @@
     object-fit: contain;
     object-position: bottom center;
     display: block;
+    background: #000000 !important;
   }
 
   .profile-meta {
@@ -606,7 +615,7 @@
     width: 42px;
     height: 42px;
     border-radius: 12px;
-    background: rgba(10, 10, 18, 0.8);
+    background: #0a0a12;
     border: 1px solid var(--glass-border);
     color: var(--text);
     text-decoration: none;
@@ -655,7 +664,7 @@
     gap: 12px;
     padding: 16px;
     border-radius: 14px;
-    background: rgba(0, 0, 0, 0.55);
+    background: #000000;
     border: 1px solid rgba(255, 255, 255, 0.08);
     margin-bottom: 22px;
     font-size: 14px;
@@ -673,14 +682,13 @@
   }
 
   .skill-pill {
-    background: rgba(8, 8, 15, 0.78);
+    background: #08080f;
     padding: 8px 14px;
     border-radius: 999px;
     border: 1px solid var(--glass-border);
     color: var(--text);
     font-weight: 600;
     font-size: 13px;
-    will-change: transform, opacity;
   }
 
   /* ── DEVOPS STACK ── */
@@ -726,7 +734,7 @@
     font-size: 11px;
     font-family: 'JetBrains Mono', monospace;
     border: 1px solid rgba(0, 240, 255, 0.28);
-    background: rgba(0, 0, 0, 0.65);
+    background: #000000;
     padding: 4px 10px;
     border-radius: 999px;
     color: var(--text);
@@ -780,7 +788,6 @@
     width: 2px;
     background: linear-gradient(180deg, var(--neon-1), var(--neon-2), var(--neon-1));
     box-shadow: 0 0 15px var(--neon-1);
-    transform-origin: top center;
   }
 
   .step-item {
@@ -805,11 +812,10 @@
     font-weight: 800;
     color: var(--neon-1);
     z-index: 2;
-    box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
   }
 
   .step-transparent-card {
-    background: rgba(5, 5, 12, 0.68) !important;
+    background: rgba(0, 0, 0, 0.65) !important;
     border-radius: 20px;
     padding: 24px 28px;
   }
@@ -914,7 +920,7 @@
     height: 100%;
     border-radius: 14px;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.7);
+    background: #000000;
   }
 
   .project-visual-card .showcase-img-wrap img {
@@ -963,11 +969,11 @@
     height: 195px;
     border-radius: 14px;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.65);
+    background: #000000;
   }
 
   .cert-photo-wrap {
-    background: rgba(0, 0, 0, 0.65) !important;
+    background: #000000 !important;
     padding: 12px;
   }
 
@@ -1027,7 +1033,7 @@
     padding: 13px 16px;
     border-radius: 12px;
     border: 1px solid var(--glass-border);
-    background: rgba(0, 0, 0, 0.72);
+    background: #000000;
     color: var(--text);
     font-family: inherit;
     font-size: 14px;
@@ -1040,8 +1046,7 @@
     color: var(--muted);
     font-size: 14px;
     border-top: 1px solid var(--glass-border);
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(12px);
+    background: #000000;
   }
 
   @media (max-width: 920px) {
@@ -1065,14 +1070,6 @@
     </filter>
   </defs>
 </svg>
-
-<!-- GLOBAL FIXED 3D SPLINE BACKGROUND (STAYS VISIBLE BEHIND ALL SECTIONS) -->
-<div class="spline-stage" id="splineStage">
-  <canvas id="splineCanvas"></canvas>
-  <iframe class="spline-bg" id="splineIframe" src='https://my.spline.design/orb-WJJLRQLUDMdwoXsST4jT67gj/' frameborder='0' width='100%' height='100%' allow="fullscreen" style="display:none;"></iframe>
-</div>
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
 
 <div class="wrap" id="wrap">
 
@@ -1120,19 +1117,28 @@
     <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
   </div>
 
-  <!-- HERO SECTION -->
+  <!-- HERO WITH EMBEDDED SPLINE IFRAME + MOBILE TOUCH TOGGLE -->
   <header class="hero" id="home">
+    <iframe class="spline-bg" id="splineIframe" src='https://my.spline.design/orb-WJJLRQLUDMdwoXsST4jT67gj/' frameborder='0' width='100%' height='100%' allow="fullscreen"></iframe>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Mobile 3D Touch Toggle Pill -->
+    <button type="button" class="spline-touch-toggle" id="splineTouchToggle">
+      <i class="fas fa-hand-pointer"></i> <span>Enable 3D Touch</span>
+    </button>
+
     <div class="hero-content">
       <div class="hero-left">
-        <div class="argon-badge hero-anim">
+        <div class="argon-badge">
           <span class="pulse-dot"></span> CLOUD & DEVOPS ENGINEER · CHENNAI
         </div>
-        <div class="intro hero-anim">Hi, I'm <span>Manish Kumar R</span></div>
-        <div class="typed-wrap hero-anim" id="typedOutput">AWS Certified Solutions Architect - Associate</div>
-        <div class="subtitle hero-anim">
+        <div class="intro">Hi, I'm <span>Manish Kumar R</span></div>
+        <div class="typed-wrap" id="typedOutput">AWS Certified Solutions Architect - Associate</div>
+        <div class="subtitle">
           Cloud & DevOps Engineer with 4+ years of experience in AWS Cloud, DevOps, and infrastructure management. Skilled in designing, automating, and maintaining scalable and secure cloud environments on AWS.
         </div>
-        <div class="cta-row hero-anim">
+        <div class="cta-row">
           <button class="btn btn-primary" id="downloadResume">
             <i class="fas fa-download"></i> Download Resume
           </button>
@@ -1421,10 +1427,10 @@
         <div class="argon-badge" style="margin-bottom:12px;"><i class="fas fa-language"></i> PROFICIENCY</div>
         <h3 style="font-size:24px; margin:0 0 14px;">Languages</h3>
         <div style="display:flex; flex-direction:column; gap:12px;">
-          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:rgba(0,0,0,0.65); border:1px solid rgba(255,255,255,0.08);">
+          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:#000; border:1px solid rgba(255,255,255,0.08);">
             <strong>Tamil</strong><span style="color:var(--neon-1);">Native</span>
           </div>
-          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:rgba(0,0,0,0.65); border:1px solid rgba(255,255,255,0.08);">
+          <div style="display:flex; justify-content:space-between; padding:12px 16px; border-radius:12px; background:#000; border:1px solid rgba(255,255,255,0.08);">
             <strong>English</strong><span style="color:var(--neon-1);">Native</span>
           </div>
         </div>
@@ -1573,117 +1579,39 @@
   </footer>
 </div>
 
-<!-- 1. FULL-PAGE FIXED SPLINE 3D SCROLL & SWIPE DRIVER -->
-<script type="module">
-  import { Application } from 'https://unpkg.com/@splinetool/runtime@1.9.28/build/runtime.js';
-
-  const canvas = document.getElementById('splineCanvas');
-  const fallbackIframe = document.getElementById('splineIframe');
-  const splineApp = new Application(canvas);
-
-  let lastUserInteraction = 0;
-
-  function driveSplineAt(x, y) {
-    ['pointermove', 'mousemove'].forEach(type => {
-      canvas.dispatchEvent(new PointerEvent(type, {
-        clientX: x,
-        clientY: y,
-        screenX: x,
-        screenY: y,
-        pointerType: 'mouse',
-        isPrimary: true,
-        bubbles: true,
-        cancelable: true,
-        view: window
-      }));
-    });
-  }
-
-  // Continuously morph/rotate the fixed Spline orb across the ENTIRE document scroll height
-  window.addEventListener('scroll', () => {
-    lastUserInteraction = performance.now();
-    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    const scrollProgress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-
-    // Multi-revolution figure-8 sweep across the full page scroll
-    const sweepAngle = scrollProgress * Math.PI * 10.0;
-    const targetX = window.innerWidth * (0.52 + Math.cos(sweepAngle) * 0.34);
-    const targetY = window.innerHeight * (0.50 + Math.sin(sweepAngle * 1.5) * 0.34);
-
-    driveSplineAt(targetX, targetY);
-  }, { passive: true });
-
-  // Forward desktop mouse movement anywhere on the page to the fixed Spline canvas
-  window.addEventListener('pointermove', (e) => {
-    if (e.isTrusted) {
-      lastUserInteraction = performance.now();
-      driveSplineAt(e.clientX, e.clientY);
-    }
-  }, { passive: true });
-
-  // Forward mobile finger touch/swipe while scrolling anywhere on the page
-  window.addEventListener('touchmove', (e) => {
-    if (!e.touches || !e.touches[0]) return;
-    lastUserInteraction = performance.now();
-    const touch = e.touches[0];
-    driveSplineAt(touch.clientX, touch.clientY);
-  }, { passive: true });
-
-  // Continuous ambient orbit when the user is idle at any scroll depth
-  function startAmbientOrbit() {
-    let angle = 0;
-    function tick() {
-      const now = performance.now();
-      if (now - lastUserInteraction > 140) {
-        angle += 0.032;
-        const cx = window.innerWidth * 0.60 + Math.cos(angle) * 52;
-        const cy = window.innerHeight * 0.54 + Math.sin(angle * 1.4) * 38;
-        driveSplineAt(cx, cy);
-      }
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  splineApp
-    .load('https://prod.spline.design/WJJLRQLUDMdwoXsST4jT67gj/scene.splinecode')
-    .then(() => {
-      try {
-        if (splineApp._scene) {
-          splineApp._scene.traverse((obj) => {
-            if (obj.isLight && obj.intensity !== undefined) {
-              obj.intensity = Math.max(obj.intensity * 1.85, 2.5);
-            }
-          });
-        }
-      } catch (e) {}
-      startAmbientOrbit();
-    })
-    .catch(() => {
-      canvas.style.display = 'none';
-      fallbackIframe.style.display = 'block';
-    });
-</script>
-
-<!-- 2. MAIN PORTFOLIO SCRIPTS -->
+<!-- MAIN PORTFOLIO SCRIPTS -->
 <script>
 const GOOGLE_FORM_VIEW_URL = "https://docs.google.com/forms/d/1mzh6UV4CJjBls4SdTXH0o9MkIiDFdDzVvXuGZRS57Zs/viewform";
 const RESUME_FILE_PATH = "R_ManishKumar_Resume_26_10_26.pdf";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
+/* ========== Mobile Spline Touch Toggle & Auto Scroll Lock ========== */
+const splineIframe = document.getElementById('splineIframe');
+const splineTouchToggle = document.getElementById('splineTouchToggle');
+
+if (splineTouchToggle && splineIframe) {
+  splineTouchToggle.addEventListener('click', () => {
+    const isTouchEnabled = splineIframe.classList.toggle('touch-active');
+    splineTouchToggle.classList.toggle('active', isTouchEnabled);
+    splineTouchToggle.innerHTML = isTouchEnabled
+      ? '<i class="fas fa-arrows-alt-v"></i> <span>Lock 3D (Scroll Page)</span>'
+      : '<i class="fas fa-hand-pointer"></i> <span>Enable 3D Touch</span>';
+  });
+
+  // Automatically re-lock 3D touch mode when scrolling past the hero section
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.7 && splineIframe.classList.contains('touch-active')) {
+      splineIframe.classList.remove('touch-active');
+      splineTouchToggle.classList.remove('active');
+      splineTouchToggle.innerHTML = '<i class="fas fa-hand-pointer"></i> <span>Enable 3D Touch</span>';
+    }
+  }, { passive: true });
+}
+
 /* ========== Floating Quick-Contact Dock Toggle ========== */
 document.getElementById('dockToggleBtn').addEventListener('click', () => {
   document.getElementById('quickContactDock').classList.toggle('open');
-});
-
-/* ========== Dynamic Cursor Glow Tracking on Cards ========== */
-document.querySelectorAll('.argon-card').forEach(card => {
-  card.addEventListener('pointermove', (e) => {
-    const rect = card.getBoundingClientRect();
-    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-  });
 });
 
 /* ========== 3D Hover & Drag Engine (With Mobile Scroll Support) ========== */
@@ -1710,155 +1638,12 @@ Draggable.create(".argon-card", {
   }
 });
 
-/* ========== GSAP ScrollTrigger Entrance Animations ========== */
-function initScrollAnimations() {
-  // 0. Full-Page Fixed 3D Stage Dynamic Scale & Rotation Across Entire Scroll
-  gsap.fromTo("#splineStage",
-    { scale: 1, rotationZ: 0 },
-    {
-      scale: 1.14,
-      rotationZ: 12,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "body",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.6
-      }
-    }
-  );
-
-  // 1. Hero Entrance Stagger
-  gsap.fromTo(".hero-anim",
-    { y: 36, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 0.85,
-      stagger: 0.12,
-      ease: "power3.out",
-      clearProps: "transform"
-    }
-  );
-
-  // 2. Section Titles & Certs Header Button Fade-Up
-  gsap.utils.toArray(".section-title, .certs-header-row .btn-credly").forEach((el) => {
-    gsap.fromTo(el,
-      { y: 35, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.75,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 88%",
-          toggleActions: "play none none reverse"
-        }
-      }
-    );
-  });
-
-  // 3. Batch Staggered Reveal for All Argon Cards
-  gsap.set(".argon-card", { y: 45, opacity: 0 });
-  ScrollTrigger.batch(".argon-card", {
-    start: "top 88%",
-    onEnter: (batch) => {
-      gsap.to(batch, {
-        opacity: 1,
-        y: 0,
-        duration: 0.75,
-        stagger: 0.1,
-        ease: "power3.out",
-        overwrite: "auto"
-      });
-    },
-    onLeaveBack: (batch) => {
-      gsap.to(batch, {
-        opacity: 0,
-        y: 45,
-        duration: 0.4,
-        overwrite: "auto"
-      });
-    }
-  });
-
-  // 4. Skill Pills Pop-In Stagger
-  gsap.fromTo(".skill-pill",
-    { scale: 0.85, opacity: 0, y: 14 },
-    {
-      scale: 1,
-      opacity: 1,
-      y: 0,
-      duration: 0.45,
-      stagger: 0.025,
-      ease: "back.out(1.5)",
-      scrollTrigger: {
-        trigger: ".skills",
-        start: "top 88%",
-        toggleActions: "play none none reverse"
-      }
-    }
-  );
-
-  // 5. Experience Timeline Step Dots Pop-In
-  gsap.utils.toArray(".step-badge-dot").forEach((dot) => {
-    gsap.fromTo(dot,
-      { scale: 0, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 0.5,
-        ease: "back.out(2)",
-        scrollTrigger: {
-          trigger: dot,
-          start: "top 88%",
-          toggleActions: "play none none reverse"
-        }
-      }
-    );
-  });
-
-  // 6. Active Navbar Pill Highlight on Scroll
-  const sections = document.querySelectorAll("section[id]");
-  const navBtns = document.querySelectorAll("nav .nav-btn");
-
-  sections.forEach((sec) => {
-    ScrollTrigger.create({
-      trigger: sec,
-      start: "top 45%",
-      end: "bottom 45%",
-      onToggle: (self) => {
-        if (self.isActive) {
-          const id = sec.getAttribute("id");
-          navBtns.forEach((btn) => {
-            const link = btn.querySelector("a");
-            if (link && link.getAttribute("href") === `#${id}`) {
-              btn.classList.add("active");
-            } else {
-              btn.classList.remove("active");
-            }
-          });
-        }
-      }
-    });
-  });
-}
-
 /* ========== Preloader & Role Rotator ========== */
 gsap.to('#progressBar', {
   width: "100%",
   duration: 0.9,
   onComplete: () => {
-    gsap.to('#preloader', {
-      opacity: 0,
-      duration: 0.4,
-      onComplete: () => {
-        document.getElementById('preloader').style.display = 'none';
-        initScrollAnimations();
-        ScrollTrigger.refresh();
-      }
-    });
+    gsap.to('#preloader', { opacity: 0, duration: 0.4, onComplete: () => document.getElementById('preloader').style.display = 'none' });
   }
 });
 
